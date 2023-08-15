@@ -13,14 +13,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+ssh://git@bitbucket.org/o7dev/monstera.git"
+		"url": "git@github.com:andreawesleyciardi/Monstera.git"
 	},
 	"author": "OSeven Team",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://bitbucket.org/o7dev/monstera/issues"
+		"url": "https://github.com/andreawesleyciardi/Monstera/issues"
 	},
-	"homepage": "https://bitbucket.org/o7dev/monstera#readme",
+	"homepage": "https://github.com/andreawesleyciardi/Monstera/tree/develop#readme",
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^25.0.3",
 		"@rollup/plugin-node-resolve": "^15.1.0",
