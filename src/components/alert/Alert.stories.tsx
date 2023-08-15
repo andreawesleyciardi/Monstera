@@ -9,23 +9,31 @@ import { arrayVariants } from '../../utilities/Services';
 
 const Template = (args) => {
 	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '1rem',
-				alignItems: 'center',
-				padding: '2rem',
-			}}
-		>
-			{arrayVariants.map((item) => (
+		<>
+			<div style={{ display: 'flex', alignItems: 'center' }}>
 				<AlertComponent
-					variant={item}
-					description={`I'm a ${item} alert`}
-					key={item}
-				></AlertComponent>
-			))}
-		</div>
+					description={`I'm a ${args.variant ?? 'success'} alert`}
+					{...args}
+				/>
+			</div>
+			{/* <div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: '1rem',
+					alignItems: 'center',
+					padding: '2rem',
+				}}
+			>
+				{arrayVariants.map((item) => (
+					<AlertComponent
+						variant={item}
+						description={`I'm a ${item} alert`}
+						key={item}
+					></AlertComponent>
+				))}
+			</div> */}
+		</>
 	);
 };
 

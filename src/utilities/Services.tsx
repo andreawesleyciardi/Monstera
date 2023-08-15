@@ -24,15 +24,15 @@ export const getStyledBackgroundColor = (theme: ITheme, variant: TVariants) => {
 };
 
 export const arrayVariants = [
-	'light',
+	'danger',
 	'dark',
+	'info',
+	'light',
+	'low',
 	'primary',
 	'secondary',
 	'success',
 	'warning',
-	'danger',
-	'low',
-	'info',
 ];
 
 export const paletteToVariants = (palette: IPalette) => {

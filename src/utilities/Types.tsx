@@ -38,6 +38,7 @@ export type TVariants =
 	| 'dark'
 	| 'info'
 	| 'light'
+	| 'low'
 	| 'primary'
 	| 'secondary'
 	| 'success'
