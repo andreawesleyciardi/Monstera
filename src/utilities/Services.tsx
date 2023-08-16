@@ -1,8 +1,12 @@
-import { IPalette, TVariants } from './Types';
+import { DefaultTheme } from 'styled-components';
+import { TVariants } from './Types';
 
 import { ITheme } from '../providers/theme/Theme.types';
 
-export const getStyledColor = (theme: ITheme, variant: TVariants) => {
+export const getStyledColor = (
+	theme: ITheme | DefaultTheme,
+	variant: TVariants
+) => {
 	if (['light', 'dark'].includes(variant) == true) {
 		if (theme.name != variant) {
 			return theme.name == 'dark'
@@ -17,7 +21,11 @@ export const getStyledColor = (theme: ITheme, variant: TVariants) => {
 	return theme.colors.inverseFontColor;
 };
 
-export const getStyledBackgroundColor = (theme: ITheme, variant: TVariants) => {
+export const getStyledBackgroundColor = (
+	theme: ITheme | DefaultTheme,
+	variant: TVariants
+) => {
+	// debugger;
 	return ['light', 'dark'].includes(variant) == true
 		? theme.colors[variant]
 		: theme.colors.variants[variant];
@@ -34,15 +42,3 @@ export const arrayVariants = [
 	'success',
 	'warning',
 ];
-
-export const paletteToVariants = (palette: IPalette) => {
-	return {
-		danger: palette.alert,
-		info: palette.support,
-		low: palette.low,
-		primary: palette.highlight,
-		secondary: palette.secondaryTwo,
-		success: palette.success,
-		warning: palette.medium,
-	};
-};

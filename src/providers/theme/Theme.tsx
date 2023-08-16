@@ -2,13 +2,12 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import _ from 'lodash';
 
-import { IPalette } from '../../utilities/Types';
-import { paletteToVariants } from '../../utilities/Services';
 import {
 	IBrand,
 	ITheme,
-	IVariants,
 	TBrandedTheme,
+	TBrandPalette,
+	TBrandVariants,
 	TThemeContext,
 	TThemeName,
 	TThemeProvider,
@@ -17,7 +16,20 @@ import { defaultPalette, themeLight, themeDark } from './Theme.styles';
 
 // Consts
 
-export const defaultVariants: IVariants = paletteToVariants(defaultPalette);
+export const paletteToVariants = (palette: TBrandPalette) => {
+	return {
+		danger: palette.alert,
+		info: palette.support,
+		low: palette.low,
+		primary: palette.highlight,
+		secondary: palette.secondaryTwo,
+		success: palette.success,
+		warning: palette.medium,
+	};
+};
+
+export const defaultVariants: TBrandVariants =
+	paletteToVariants(defaultPalette);
 
 const themes = {
 	light: themeLight,
@@ -34,6 +46,7 @@ export const defaultBrand: IBrand = {
 		variants: defaultVariants,
 	},
 	logo: 'https://dev-o7drivers.oseven.io/branding/oseven/web_mobile_logo.png',
+	safeMiles: { name: 'SafeMiles' },
 	isBranded: false,
 };
 

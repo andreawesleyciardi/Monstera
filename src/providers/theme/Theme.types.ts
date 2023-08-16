@@ -1,6 +1,22 @@
-import { IPalette } from '../../utilities/Types';
+// Brand
 
-export interface IVariants {
+export type TBrandPalette = {
+	alert: string;
+	background: string;
+	highlight: string;
+	low: string;
+	main: string;
+	medium: string;
+	secondaryOne: string;
+	secondaryTwo: string;
+	success: string;
+	support: string;
+	tabBarCover: string;
+	tabBarCoverTwo: string;
+	widgetsNegTexts: string;
+};
+
+export type TBrandVariants = {
 	danger: string;
 	info: string;
 	low: string;
@@ -8,22 +24,27 @@ export interface IVariants {
 	secondary: string;
 	success: string;
 	warning: string;
-}
+};
 
-// Brand
-
-export interface IBrandColors {
+export type TBrandColors = {
 	bars: string;
 	interactive: string;
-}
+};
+
+type TBrandColorsGroups = {
+	brand: TBrandColors;
+	palette: TBrandPalette;
+	variants: TBrandVariants;
+};
+
+type TBrandSafemiles = {
+	name: string;
+};
 
 export interface IBrand {
-	colors: {
-		brand: IBrandColors;
-		palette: IPalette;
-		variants: IVariants;
-	};
+	colors: TBrandColorsGroups;
 	logo: string;
+	safeMiles: TBrandSafemiles;
 	isBranded: boolean;
 }
 
@@ -31,28 +52,25 @@ export interface IBrand {
 
 export type TThemeName = 'light' | 'dark';
 
-export interface IThemeColors {
+export type TThemeColors = {
 	bodyBackground: string;
 	dark: string;
 	fontColor: string;
 	inverseFontColor: string;
 	light: string;
 	widgetBackground: string;
-}
+};
 
 export interface ITheme {
 	name: TThemeName;
-	colors: IThemeColors;
+	colors: TThemeColors;
 }
 
 // Branded Theme
 
-export interface IBrandedThemeColors extends IThemeColors {
-	brand: IBrand;
-	palette: IPalette;
-}
+export type IBrandedThemeColors = TBrandColorsGroups & TThemeColors;
 
-export type TBrandedTheme = IBrand & ITheme;
+export type TBrandedTheme = ITheme & IBrand;
 
 export type TThemeContext = {
 	setBrand: (selectedBrand: IBrand) => void;

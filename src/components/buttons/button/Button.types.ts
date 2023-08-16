@@ -18,12 +18,12 @@ export interface IButton {
 }
 
 export interface IStyledButton {
-	disabled?: boolean;
-	$fillMode?: TButtonFillMode;
-	$fullWidth?: boolean;
-	$isLoading?: boolean;
+	disabled: boolean;
+	$fillMode: TButtonFillMode;
+	$fullWidth: boolean;
+	$isLoading: boolean;
 	onClick: MouseEventHandler<HTMLButtonElement>;
-	$size?: TSizes;
-	type?: TButtonType;
-	$variant?: TVariants;
+	$size: TSizes;
+	type: TButtonType;
+	$variant: TVariants;
 }

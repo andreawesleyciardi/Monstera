@@ -1,6 +1,6 @@
-import { IPalette, ITheme } from './Theme.types';
+import { ITheme, TBrandPalette } from './Theme.types';
 
-export const defaultPalette: IPalette = {
+export const defaultPalette: TBrandPalette = {
 	alert: '#C8001E',
 	background: '#F5F5F5',
 	highlight: '#46BEDC',

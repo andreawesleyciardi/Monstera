@@ -3,7 +3,11 @@ import React from 'react';
 import { TPositions, TVariants } from '../../utilities/Types';
 import { TAlertBase } from '../../components/alert/Alert.types';
 
-export type TAlertConfig = TAlertBase & { delay: number };
+type TAlertDelay = {
+	delay: number;
+};
+
+export type TAlertConfig = TAlertBase & TAlertDelay;
 
 export type TAlertProvider = {
 	children: any;
@@ -26,4 +30,10 @@ export type TAlertContext = {
 	secondary: (alertConfig: TAlertConfig) => void;
 	success: (alertConfig: TAlertConfig) => void;
 	warning: (alertConfig: TAlertConfig) => void;
+};
+
+export type TAlertConfigured = {
+	id: string;
+	delay: number;
+	alertProps: TAlertBase;
 };

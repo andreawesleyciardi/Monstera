@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { shade, tint } from 'polished';
 
+import { IStyledAlert } from './Alert.types';
 import {
 	getStyledColor,
 	getStyledBackgroundColor,
 } from '../../utilities/Services';
 
-export const StyledAlert = styled.div<{ $variant: string }>`
+export const StyledAlert = styled.div<IStyledAlert>`
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
@@ -20,16 +21,16 @@ export const StyledAlert = styled.div<{ $variant: string }>`
 		opacity: 0;
 		transition: opacity 500ms linear;
 	}
-	color: ${({ theme, $variant }) =>
-		shade(0.8, getStyledBackgroundColor(theme, $variant))};
-	background-color: ${({ theme, $variant }) =>
-		tint(0.5, getStyledBackgroundColor(theme, $variant))};
+	color: ${(props) =>
+		shade(0.8, getStyledBackgroundColor(props.theme, props.$variant))};
+	background-color: ${(props) =>
+		tint(0.5, getStyledBackgroundColor(props.theme, props.$variant))};
 	button {
 		padding: 0px;
 		outline: none !important;
 		text-decoration: none !important;
-		color: ${({ theme, $variant }) =>
-			shade(0.8, getStyledBackgroundColor(theme, $variant))};
+		color: ${(props) =>
+			shade(0.8, getStyledBackgroundColor(props.theme, props.$variant))};
 		background-color: transparent;
 		border: none;
 	}

@@ -2,10 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { IPalette } from '../../utilities/Types';
-import { arrayVariants, paletteToVariants } from '../../utilities/Services';
-import { defaultBrand, ThemeProvider, useTheme } from './Theme';
-import { IBrand, TThemeName } from './Theme.types';
+import { arrayVariants } from '../../utilities/Services';
+import {
+	defaultBrand,
+	paletteToVariants,
+	ThemeProvider,
+	useTheme,
+} from './Theme';
+import { IBrand, TBrandPalette, TThemeName } from './Theme.types';
 import { Button } from '../../components/buttons/button/Button';
 
 const StyledPanel = styled.div`
@@ -27,7 +31,7 @@ const Template = ({ children, ...args }) => {
 		usetheme.setTheme(themeKey);
 	};
 
-	const gigjoPalette: IPalette = {
+	const gigjoPalette: TBrandPalette = {
 		alert: '#9B2757',
 		background: '#F5F5F5',
 		highlight: '#C38A5F',
@@ -53,6 +57,7 @@ const Template = ({ children, ...args }) => {
 			variants: paletteToVariants(gigjoPalette),
 		},
 		logo: 'https://dev-gigjo.oseven.io/branding/gigdrive/web_mobile_logo.png',
+		safeMiles: { name: null },
 		isBranded: true,
 	};
 
