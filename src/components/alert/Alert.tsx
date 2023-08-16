@@ -4,8 +4,8 @@ import { TAlert } from './Alert.types';
 import { StyledAlert } from './Alert.styles';
 
 // export const Alert = React.forwardRef<HTMLDivElement>((props: TAlert, ref) => {
-export const Alert = React.forwardRef(
-	(props: TAlert, ref?: React.Ref<HTMLDivElement>) => {
+export const Alert = React.memo(
+	React.forwardRef((props: TAlert, ref?: React.Ref<HTMLDivElement>) => {
 		let {
 			content: Content,
 			close = 'auto',
@@ -46,5 +46,5 @@ export const Alert = React.forwardRef(
 				)}
 			</StyledAlert>
 		);
-	}
+	})
 );

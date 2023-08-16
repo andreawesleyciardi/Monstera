@@ -7,11 +7,17 @@ import React, {
 } from 'react';
 import moment from 'moment';
 
-import { EVariants, TPositions, TVariants } from '../../utilities/Types';
+import { TPositions, TVariants } from '../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
-import { TAlertConfig, TAlertContext, TAlertProvider } from './Alert.types';
+import {
+	TAlertConfig,
+	TAlertConfigured,
+	TAlertContext,
+	TAlertProvider,
+} from './Alert.types';
 import { StyledAlertProvider } from './Alert.styles';
 import { Alert } from '../../components/alert/Alert';
+import { TAlert } from '../../components/alert/Alert.types';
 
 const alertConfigurator = ({ delay = 0, ...alertProps }: TAlertConfig) => {
 	if (alertProps.description == null && alertProps.content == null) {
@@ -27,12 +33,22 @@ const alertConfigurator = ({ delay = 0, ...alertProps }: TAlertConfig) => {
 
 const AlertContext = React.createContext<TAlertContext | null>(null);
 
-export const AlertProvider: any = (props: TAlertProvider) => {
-	const [newAlert, setNewAlert] = useState(null);
-	const [removeAlert, setRemoveAlert] = useState(null);
-	const [alerts, setAlerts] = useState({});
+type Alerts = {
+	[id: string]: TAlertConfigured;
+};
 
-	const alertsRef = useRef([]);
+type AlertsRef = {
+	[id: string]: HTMLElement;
+};
+
+export const AlertProvider: any = (props: TAlertProvider) => {
+	const [newAlert, setNewAlert] = useState<TAlertConfigured | null>(null);
+	const [removeAlert, setRemoveAlert] = useState<TAlertConfigured | null>(
+		null
+	);
+	const [alerts, setAlerts] = useState<Alerts>({});
+
+	const alertsRef = useRef<AlertsRef>({});
 
 	let { children, position = 'top-right' } = props;
 
@@ -40,17 +56,19 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 		alertConfig: TAlertConfig | string,
 		variant: TVariants
 	) => {
-		let testx = (
+		let alertConfigObj = (
 			typeof alertConfig === 'string'
 				? { description: alertConfig }
 				: alertConfig
 		) as TAlertConfig;
 
-		let test = Object.assign({}, testx, {
-			variant: (variant ?? testx?.variant) as TVariants,
+		let alertConfigFullObj = Object.assign({}, alertConfigObj, {
+			variant: (variant ?? alertConfigObj?.variant) as TVariants,
 		}) as TAlertConfig;
 
-		let alertElement = alertConfigurator(test);
+		let alertElement = alertConfigurator(
+			alertConfigFullObj
+		) as TAlertConfigured;
 		if (alertElement != null) {
 			setTimeout(() => {
 				setNewAlert(alertElement);
@@ -58,16 +76,16 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 		}
 	};
 
-	const handleRemove = useCallback((id: string) => {
+	const handleRemove = (id: string) => {
 		if (alerts[id] != null) {
 			setRemoveAlert(alerts[id]);
 		}
-	});
+	};
 
 	useEffect(() => {
 		if (newAlert != null) {
 			let listAlerts = Object.assign({}, alerts, {
-				[newAlert.id]: newAlert,
+				[newAlert.id]: newAlert as TAlertConfigured,
 			});
 			setAlerts(listAlerts);
 			setNewAlert(null);
@@ -77,13 +95,16 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 	useEffect(() => {
 		if (removeAlert != null) {
 			let listAlerts = Object.assign({}, alerts);
-			const alert = alertsRef.current[removeAlert.id];
-			alert.classList.add('fadeout');
-			alert.ontransitionend = () => {
-				delete listAlerts[removeAlert.id];
-				setAlerts(listAlerts);
-				setRemoveAlert(null);
-			};
+			const id = removeAlert.id;
+			if (alertsRef?.current != null && alertsRef?.current[id] != null) {
+				const alert = alertsRef.current[removeAlert.id];
+				alert.classList.add('fadeout');
+				alert.ontransitionend = () => {
+					delete listAlerts[removeAlert.id];
+					setAlerts(listAlerts);
+					setRemoveAlert(null);
+				};
+			}
 		}
 	}, [removeAlert]);
 
@@ -113,7 +134,9 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 								{...alertProps}
 								id={id}
 								key={id}
-								ref={(el) => (alertsRef.current[id] = el)}
+								ref={(el) =>
+									(alertsRef.current[id] = el as HTMLElement)
+								}
 								onClose={handleRemove}
 							/>
 						);

@@ -31,3 +31,9 @@ export type TAlertContext = {
 	success: (alertConfig: TAlertConfig) => void;
 	warning: (alertConfig: TAlertConfig) => void;
 };
+
+export type TAlertConfigured = {
+	id: string;
+	delay: number;
+	alertProps: TAlertBase;
+};
