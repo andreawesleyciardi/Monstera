@@ -5,22 +5,6 @@ export type TProvider = {
 	children: React.ReactElement;
 };
 
-export interface IPalette {
-	alert: string;
-	background: string;
-	highlight: string;
-	low: string;
-	main: string;
-	medium: string;
-	secondaryOne: string;
-	secondaryTwo: string;
-	success: string;
-	support: string;
-	tabBarCover: string;
-	tabBarCoverTwo: string;
-	widgetsNegTexts: string;
-}
-
 export type TPositions =
 	| 'left'
 	| 'top-left'
@@ -43,3 +27,15 @@ export type TVariants =
 	| 'secondary'
 	| 'success'
 	| 'warning';
+
+export enum EVariants {
+	danger = 'danger',
+	dark = 'dark',
+	info = 'info',
+	light = 'light',
+	low = 'low',
+	primary = 'primary',
+	secondary = 'secondary',
+	success = 'success',
+	warning = 'warning',
+}

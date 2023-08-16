@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import moment from 'moment';
 
-import { TPositions, TVariants } from '../../utilities/Types';
+import { EVariants, TPositions, TVariants } from '../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
 import { TAlertConfig, TAlertContext, TAlertProvider } from './Alert.types';
 import { StyledAlertProvider } from './Alert.styles';
@@ -36,16 +36,21 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 
 	let { children, position = 'top-right' } = props;
 
-	const handleAdd = (alertConfig: TAlertConfig, variant: TVariants) => {
-		let alertElement = alertConfigurator(
-			Object.assign(
-				{},
-				typeof alertConfig === 'string'
-					? { description: alertConfig }
-					: alertConfig,
-				{ variant: variant ?? alertConfig?.variant }
-			)
-		);
+	const handleAdd = (
+		alertConfig: TAlertConfig | string,
+		variant: TVariants
+	) => {
+		let testx = (
+			typeof alertConfig === 'string'
+				? { description: alertConfig }
+				: alertConfig
+		) as TAlertConfig;
+
+		let test = Object.assign({}, testx, {
+			variant: (variant ?? testx?.variant) as TVariants,
+		}) as TAlertConfig;
+
+		let alertElement = alertConfigurator(test);
 		if (alertElement != null) {
 			setTimeout(() => {
 				setNewAlert(alertElement);
@@ -85,7 +90,7 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 	let variantsMethods: any = {};
 	for (let i = 0; i < arrayVariants.length; i++) {
 		variantsMethods[arrayVariants[i]] = (alertConfig: TAlertConfig) => {
-			const variant: TVariants = arrayVariants[i];
+			const variant = arrayVariants[i] as TVariants;
 			handleAdd(alertConfig, variant);
 		};
 	}

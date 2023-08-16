@@ -16,23 +16,6 @@ const Template = (args) => {
 					{...args}
 				/>
 			</div>
-			{/* <div
-				style={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '1rem',
-					alignItems: 'center',
-					padding: '2rem',
-				}}
-			>
-				{arrayVariants.map((item) => (
-					<AlertComponent
-						variant={item}
-						description={`I'm a ${item} alert`}
-						key={item}
-					></AlertComponent>
-				))}
-			</div> */}
 		</>
 	);
 };

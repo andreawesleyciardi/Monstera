@@ -23,11 +23,11 @@ const StyledButton = styled.button<IStyledButton>`
 			: $size === 'medium'
 			? '9px 30px 11px'
 			: '14px 30px 16px'};
-	color: ${({ theme, $variant }) => {
-		return getStyledColor(theme, $variant);
+	color: ${(props) => {
+		return getStyledColor(props.theme, props.$variant);
 	}};
-	background-color: ${({ theme, $variant }) => {
-		return getStyledBackgroundColor(theme, $variant);
+	background-color: ${(props) => {
+		return getStyledBackgroundColor(props.theme, props.$variant);
 	}};
 	opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 	&:hover {
