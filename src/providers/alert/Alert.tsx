@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import moment from 'moment';
 
-import { TPositions, TVariants } from '../../utilities/Types';
+import { TVariants } from '../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
 import {
 	TAlertConfig,
@@ -17,9 +17,11 @@ import {
 } from './Alert.types';
 import { StyledAlertProvider } from './Alert.styles';
 import { Alert } from '../../components/alert/Alert';
-import { TAlert } from '../../components/alert/Alert.types';
 
-const alertConfigurator = ({ delay = 0, ...alertProps }: TAlertConfig) => {
+const alertConfigurator = (
+	{ delay = 0, ...alertProps }: TAlertConfig,
+	duration: number | undefined
+) => {
 	if (alertProps.description == null && alertProps.content == null) {
 		return null;
 	}
@@ -27,7 +29,7 @@ const alertConfigurator = ({ delay = 0, ...alertProps }: TAlertConfig) => {
 	return {
 		id: moment().format('x'),
 		delay,
-		alertProps: alertProps,
+		alertProps: Object.assign({}, { duration: duration }, alertProps),
 	};
 };
 
@@ -50,7 +52,12 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 
 	const alertsRef = useRef<AlertsRef>({});
 
-	let { children, position = 'top-right' } = props;
+	let {
+		children,
+		duration,
+		offset = { x: '0px', y: '0px' },
+		position = 'top-right',
+	} = props;
 
 	const handleAdd = (
 		alertConfig: TAlertConfig | string,
@@ -67,7 +74,8 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 		}) as TAlertConfig;
 
 		let alertElement = alertConfigurator(
-			alertConfigFullObj
+			alertConfigFullObj,
+			duration
 		) as TAlertConfigured;
 		if (alertElement != null) {
 			setTimeout(() => {
@@ -125,7 +133,7 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 			}}
 		>
 			{children}
-			<StyledAlertProvider $position={position}>
+			<StyledAlertProvider $position={position} $offset={offset}>
 				{Object.keys(alerts).length > 0 &&
 					Object.keys(alerts).map((key: string, index) => {
 						let { id, alertProps } = alerts[key];
