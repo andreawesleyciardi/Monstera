@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TPositions, TVariants } from '../../utilities/Types';
+import { TCssCoords, TPositions, TVariants } from '../../utilities/Types';
 import { TAlertBase } from '../../components/alert/Alert.types';
 
 type TAlertDelay = {
@@ -11,10 +11,13 @@ export type TAlertConfig = TAlertBase & TAlertDelay;
 
 export type TAlertProvider = {
 	children: any;
-	position: TPositions;
+	duration?: number;
+	offset?: TCssCoords;
+	position?: TPositions;
 };
 
 export type TStyledAlertProvider = {
+	$offset: TCssCoords;
 	$position: TPositions;
 };
 

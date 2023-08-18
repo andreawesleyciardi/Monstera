@@ -1,11 +1,17 @@
 import React from 'react';
 
-// to fix the type for "children"
-export type TProvider = {
-	children: React.ReactElement;
+export type TCoords = {
+	x: number;
+	y: number;
+};
+
+export type TCssCoords = {
+	x: string;
+	y: string;
 };
 
 export type TPositions =
+	| 'center'
 	| 'left'
 	| 'top-left'
 	| 'top'
@@ -14,6 +20,23 @@ export type TPositions =
 	| 'bottom-right'
 	| 'bottom'
 	| 'bottom-left';
+
+export enum EPositions {
+	'center' = 'center',
+	'left' = 'left',
+	'top-left' = 'top-left',
+	'top' = 'top',
+	'top-right' = 'top-right',
+	'right' = 'right',
+	'bottom-right' = 'bottom-right',
+	'bottom' = 'bottom',
+	'bottom-left' = 'bottom-left',
+}
+
+// to fix the type for "children"
+export type TProvider = {
+	children: React.ReactElement;
+};
 
 export type TSizes = 'small' | 'medium' | 'large';
 
