@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { ThemeProvider } from '../../providers/theme/Theme';
+import { ThemeProvider } from '../../../providers/theme/Theme';
 
 import { Button as ButtonComponent } from './button/Button';
 import { IButton } from './button/Button.types';

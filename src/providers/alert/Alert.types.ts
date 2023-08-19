@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { TCssCoords, TPositions, TVariants } from '../../utilities/Types';
-import { TAlertBase } from '../../components/alert/Alert.types';
+import { TAlertBase } from '../../components/atoms/alert/Alert.types';
 
 type TAlertDelay = {
 	delay: number;

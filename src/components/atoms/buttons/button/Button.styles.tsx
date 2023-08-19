@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
 	getStyledColor,
 	getStyledBackgroundColor,
-} from '../../../utilities/Services';
+} from '../../../../utilities/Services';
 
 import { IStyledButton } from './Button.types';
 

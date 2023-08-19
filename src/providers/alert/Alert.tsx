@@ -16,7 +16,7 @@ import {
 	TAlertProvider,
 } from './Alert.types';
 import { StyledAlertProvider } from './Alert.styles';
-import { Alert } from '../../components/alert/Alert';
+import { Alert } from '../../components/atoms/alert/Alert';
 
 const alertConfigurator = (
 	{ delay = 0, ...alertProps }: TAlertConfig,

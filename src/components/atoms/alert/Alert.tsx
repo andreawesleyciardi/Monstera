@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 import { TAlert } from './Alert.types';
 import { StyledAlert } from './Alert.styles';
 
-// export const Alert = React.forwardRef<HTMLDivElement>((props: TAlert, ref) => {
 export const Alert = React.memo(
 	React.forwardRef((props: TAlert, ref?: React.Ref<HTMLDivElement>) => {
 		let {

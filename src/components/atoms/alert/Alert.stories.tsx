@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 import { Alert as AlertComponent } from './Alert';
 import { TAlert } from './Alert.types';
-import { ThemeProvider } from '../../providers/theme/Theme';
-import { Button } from './../buttons/button/Button';
-import { arrayVariants } from '../../utilities/Services';
+import { ThemeProvider } from '../../../providers/theme/Theme';
+import { Button } from '../buttons/button/Button';
+import { arrayVariants } from '../../../utilities/Services';
 
 const Template = (args) => {
 	return (

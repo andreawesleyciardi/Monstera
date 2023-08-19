@@ -1,3 +1,5 @@
+import styled, { createGlobalStyle } from 'styled-components';
+
 import { ITheme, TBrandPalette } from './Theme.types';
 
 export const defaultPalette: TBrandPalette = {
@@ -39,3 +41,12 @@ export const themeDark: ITheme = {
 		dark: '#F3F3F5',
 	},
 };
+
+export const GlobalStyles = createGlobalStyle`
+    body {
+        background-color: ${({ theme }) => theme.colors.bodyBackground};
+        color: ${({ theme }) => theme.colors.fontColor};
+        font-family: monospace;
+        overflow-x: hidden;
+    }
+`;

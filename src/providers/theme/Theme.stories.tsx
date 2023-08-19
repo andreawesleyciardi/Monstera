@@ -10,7 +10,9 @@ import {
 	useTheme,
 } from './Theme';
 import { IBrand, TBrandPalette, TThemeName } from './Theme.types';
-import { Button } from '../../components/buttons/button/Button';
+import { Alert } from '../../components/atoms/alert/Alert';
+import { Button } from '../../components/atoms/buttons/button/Button';
+import { TVariants } from '../../utilities/Types';
 
 const StyledPanel = styled.div`
 	width: 100%;
@@ -62,7 +64,7 @@ const Template = ({ children, ...args }) => {
 	};
 
 	return (
-		<StyledPanel
+		<div
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -84,7 +86,7 @@ const Template = ({ children, ...args }) => {
 						handleSetBrand(defaultBrand);
 					}}
 				>
-					OSeven Brand
+					Default Brand
 				</Button>
 
 				<Button
@@ -93,7 +95,7 @@ const Template = ({ children, ...args }) => {
 						handleSetBrand(gigjoBrand);
 					}}
 				>
-					GigJo Brand
+					Other Brand
 				</Button>
 				<Button
 					variant="dark"
@@ -117,7 +119,7 @@ const Template = ({ children, ...args }) => {
 			>
 				{arrayVariants.map((item) => (
 					<Button
-						variant={item}
+						variant={item as TVariants}
 						fullWidth={true}
 						onClick={(e) => {}}
 						key={item}
@@ -126,7 +128,29 @@ const Template = ({ children, ...args }) => {
 					</Button>
 				))}
 			</div>
-		</StyledPanel>
+			<h2 style={{ margin: '0px' }}>Alerts</h2>
+			<div
+				style={{
+					display: 'flex',
+					gap: '2rem',
+					alignItems: 'center',
+					padding: '2rem',
+				}}
+			>
+				{arrayVariants.map((item) => (
+					<Alert
+						description={`${item} alert`}
+						variant={item as TVariants}
+						id={item}
+						close="manual"
+						onClose={(e) => {
+							return;
+						}}
+						key={item}
+					/>
+				))}
+			</div>
+		</div>
 	);
 };
 

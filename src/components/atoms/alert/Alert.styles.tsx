@@ -5,7 +5,7 @@ import { IStyledAlert } from './Alert.types';
 import {
 	getStyledColor,
 	getStyledBackgroundColor,
-} from '../../utilities/Services';
+} from '../../../utilities/Services';
 
 export const StyledAlert = styled.div<IStyledAlert>`
 	display: flex;

@@ -1,5 +1,5 @@
 import { MouseEventHandler } from 'react';
-import { TSizes, TVariants } from '../../../utilities/Types';
+import { TSizes, TVariants } from '../../../../utilities/Types';
 
 type TButtonType = 'button' | 'submit' | 'reset';
 

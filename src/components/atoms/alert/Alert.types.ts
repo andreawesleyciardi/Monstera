@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TPositions, TVariants } from '../../utilities/Types';
+import { TPositions, TVariants } from '../../../utilities/Types';
 
 export type TAlertBase = {
 	content?: React.FunctionComponent;
