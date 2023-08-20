@@ -1,13 +1,17 @@
-export type TContentComponent = React.FunctionComponent | null;
+export type TContentComponent = React.FunctionComponent;
 
 export type TContentProps = object;
 
 export type TOpenModalProps = {
 	type?: string;
-	size?: string | ((contentProps?: TContentProps) => void);
+	size?: string | ((contentProps?: TContentProps) => string);
+	whatever?: any;
 };
 
-export type TModalProps = object;
+export type TModalProps = {
+	type: string;
+	size: string;
+};
 
 export type TModalOpen = (
 	content: TContentComponent,
@@ -28,5 +32,7 @@ export type TModalContext = {
 };
 
 export type TModalProvider = {
-	children: any;
+	children: React.ReactNode;
 };
+
+export type THandleResult = (result?: object, params?: object) => void;

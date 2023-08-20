@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Whatever } from '@mui/material/Dialog';
+import { Whatever } from '@mui/material';
 
 import {
 	TModalClose,
@@ -10,6 +10,7 @@ import {
 	TOpenModalProps,
 	TContentProps,
 	TModalProps,
+	THandleResult,
 } from './Modal.types';
 import { Modal } from './../../components/molecules/modal/Modal';
 
@@ -20,7 +21,7 @@ const modalConfigurator = (props: TOpenModalProps) => {
 		size: typeof size === 'function' ? size(contentProps) : size,
 	};
 
-	return { contentProps: contentProps, modalProps: modalProps };
+	return { parsedContentProps: contentProps, parsedModalProps: modalProps };
 };
 
 // Provider
@@ -31,36 +32,35 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 	const [show, setShow] = useState<boolean>(false);
 
 	const [contentComponent, setContentComponent] =
-		useState<TContentComponent>(null);
-	const [contentProps, setContentProps] = useState<TContentProps>({});
-	const [modalProps, setModalProps] = useState<TModalProps>({});
-
-	const [handleResolve, setHandleResolve] = useState<(() => void) | null>(
+		useState<TContentComponent | null>(null);
+	const [contentProps, setContentProps] = useState<TContentProps | null>(
 		null
 	);
-	const [handleReject, setHandleReject] = useState<(() => void) | null>(null);
+	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
+
+	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
+		null
+	);
+	const [handleReject, setHandleReject] = useState<THandleResult | null>(
+		null
+	);
 
 	const handleOpen: TModalOpen = (content, props, onResolve, onReject) => {
-		let { contentProps, modalProps } = modalConfigurator(props);
+		let { parsedContentProps, parsedModalProps } = modalConfigurator(props);
 		setContentComponent(content);
-		setContentProps(contentProps);
-		setModalProps(modalProps);
+		setContentProps(parsedContentProps);
+		setModalProps(parsedModalProps);
 		setHandleResolve(() => onResolve);
 		setHandleReject(() => onReject);
 	};
 
 	const handleClose: TModalClose = (successful, result, params) => {
-		// if (successful === true) {
-		//     if (handleResolve !== null) {
-		//         handleResolve(result, params);
-		//     }
-		// }
-		// else if (successful === false) {
-		//     if (handleReject !== null) {
-		//         handleReject(result, params);
-		//     }
-		// }
-		// setShow(false);
+		if (successful === true) {
+			handleResolve !== null && handleResolve(result, params);
+		} else if (successful === false) {
+			handleReject !== null && handleReject(result, params);
+		}
+		setShow(false);
 	};
 
 	return (
