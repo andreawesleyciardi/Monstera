@@ -1,16 +1,32 @@
-export type TModalContext = {};
+export type TContentComponent = React.FunctionComponent | null;
 
-export type TModalProvider = {};
+export type TContentProps = object;
+
+export type TOpenModalProps = {
+	type?: string;
+	size?: string | ((contentProps?: TContentProps) => void);
+};
+
+export type TModalProps = object;
 
 export type TModalOpen = (
-	content: React.FunctionComponent,
-	contentProps: object,
+	content: TContentComponent,
+	props: TOpenModalProps,
 	onResolve?: () => void,
 	onReject?: () => void
 ) => void;
 
 export type TModalClose = (
 	successful: boolean,
-	result: object,
-	params: object
+	result?: object,
+	params?: object
 ) => void;
+
+export type TModalContext = {
+	open: TModalOpen;
+	close: TModalClose;
+};
+
+export type TModalProvider = {
+	children: any;
+};

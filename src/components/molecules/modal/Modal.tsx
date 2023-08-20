@@ -1,4 +1,4 @@
-
+import Dialog from '@mui/material/Dialog';
 
 import { TModal } from './Modal.types';
 import {  } from './Modal.styles';

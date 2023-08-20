@@ -40,3 +40,11 @@ export type TAlertConfigured = {
 	delay: number;
 	alertProps: TAlertBase;
 };
+
+export type Alerts = {
+	[id: string]: TAlertConfigured;
+};
+
+export type AlertsRef = {
+	[id: string]: HTMLElement;
+};
