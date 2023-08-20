@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { Whatever } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 
 import {
 	TModalClose,
@@ -62,6 +61,34 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 		}
 		setShow(false);
 	};
+
+	useEffect(() => {
+		if (contentComponent !== null && contentProps !== null) {
+			setShow(true);
+		}
+	}, [contentComponent, contentProps, modalProps]);
+
+	const resetComponent = () => {
+		setContentComponent(null);
+		setContentProps(null);
+		setModalProps(null);
+		setHandleResolve(null);
+		setHandleReject(null);
+	};
+
+	useEffect(() => {
+		if (show === false) {
+			resetComponent();
+		}
+	}, [show]);
+
+	useEffect(() => {
+		return () => {
+			if (show == false) {
+				resetComponent();
+			}
+		};
+	}, []);
 
 	return (
 		<ModalContext.Provider
