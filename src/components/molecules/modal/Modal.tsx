@@ -1,11 +1,15 @@
 import React from 'react';
-// import Dialog from '@mui/material/Dialog';
+import Dialog from '@mui/material/Dialog';
 
 import { TModal } from './Modal.types';
 // import {} from './Modal.styles';
 
 export const Modal = (props: TModal) => {
-	let { whatever } = props;
+	let { show, children, childrenProps, modalProps } = props;
 
-	return <div>{whatever}</div>;
+	return (
+		<Dialog {...modalProps} open={show}>
+			Content
+		</Dialog>
+	);
 };

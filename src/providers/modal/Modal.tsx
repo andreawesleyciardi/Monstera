@@ -5,22 +5,27 @@ import {
 	TModalContext,
 	TModalOpen,
 	TModalProvider,
-	TContentComponent,
 	TOpenModalProps,
-	TContentProps,
-	TModalProps,
 	THandleResult,
 } from './Modal.types';
 import { Modal } from './../../components/molecules/modal/Modal';
+import {
+	TContentComponent,
+	TContentProps,
+	TModalProps,
+} from './../../components/molecules/modal/Modal.types';
 
 const modalConfigurator = (props: TOpenModalProps) => {
-	let { type = 'default', size = 'md', ...contentProps } = props;
+	let { type = 'default', size = 'md', ...modalChildrenProps } = props;
 	const modalProps = {
 		type,
-		size: typeof size === 'function' ? size(contentProps) : size,
+		size: typeof size === 'function' ? size(modalChildrenProps) : size,
 	};
 
-	return { parsedContentProps: contentProps, parsedModalProps: modalProps };
+	return {
+		parsedModalChildrenProps: modalChildrenProps,
+		parsedModalProps: modalProps,
+	};
 };
 
 // Provider
@@ -30,11 +35,10 @@ const ModalContext = React.createContext<TModalContext | null>(null);
 export const ModalProvider: any = ({ children }: TModalProvider) => {
 	const [show, setShow] = useState<boolean>(false);
 
-	const [contentComponent, setContentComponent] =
+	const [modalChildren, setModalChildren] =
 		useState<TContentComponent | null>(null);
-	const [contentProps, setContentProps] = useState<TContentProps | null>(
-		null
-	);
+	const [modalChildrenProps, setModalChildrenProps] =
+		useState<TContentProps | null>(null);
 	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
 
 	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
@@ -44,10 +48,16 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 		null
 	);
 
-	const handleOpen: TModalOpen = (content, props, onResolve, onReject) => {
-		let { parsedContentProps, parsedModalProps } = modalConfigurator(props);
-		setContentComponent(content);
-		setContentProps(parsedContentProps);
+	const handleOpen: TModalOpen = (
+		modalChildren,
+		props,
+		onResolve,
+		onReject
+	) => {
+		let { parsedModalChildrenProps, parsedModalProps } =
+			modalConfigurator(props);
+		setModalChildren(modalChildren);
+		setModalChildrenProps(parsedModalChildrenProps);
 		setModalProps(parsedModalProps);
 		setHandleResolve(() => onResolve);
 		setHandleReject(() => onReject);
@@ -63,14 +73,14 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 	};
 
 	useEffect(() => {
-		if (contentComponent !== null && contentProps !== null) {
+		if (modalChildren !== null && modalChildrenProps !== null) {
 			setShow(true);
 		}
-	}, [contentComponent, contentProps, modalProps]);
+	}, [modalChildren, modalChildrenProps, modalProps]);
 
 	const resetComponent = () => {
-		setContentComponent(null);
-		setContentProps(null);
+		setModalChildren(null);
+		setModalChildrenProps(null);
 		setModalProps(null);
 		setHandleResolve(null);
 		setHandleReject(null);
@@ -98,7 +108,14 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 			}}
 		>
 			{children}
-			{show && <Modal whatever="test" />}
+			{show && (
+				<Modal
+					children={modalChildren}
+					childrenProps={modalChildrenProps}
+					modalProps={modalProps}
+					show={show}
+				/>
+			)}
 		</ModalContext.Provider>
 	);
 };

@@ -1,10 +1,13 @@
-import styled from 'styled-components';
-import { shade, tint } from 'polished';
+import Dialog from '@mui/material/Dialog';
+import { styled } from '@mui/material/styles';
 
 import { IStyledModal } from './Modal.types';
-import {
-	getStyledColor,
-	getStyledBackgroundColor,
-} from '../../../utilities/Services';
 
-export const StyledAlert = styled.div<IStyledModal>``;
+export const StyledModal = styled(Dialog)(({ theme }) => ({
+	'& .MuiDialogContent-root': {
+		padding: theme.spacing(2),
+	},
+	'& .MuiDialogActions-root': {
+		padding: theme.spacing(1),
+	},
+}));

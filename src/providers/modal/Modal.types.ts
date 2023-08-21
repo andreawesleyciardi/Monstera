@@ -1,20 +1,15 @@
-export type TContentComponent = React.FunctionComponent;
+import {
+	TContentComponent,
+	TContentProps,
+	TModalProps,
+} from './../../components/molecules/modal/Modal.types';
 
-export type TContentProps = object;
-
-export type TOpenModalProps = {
-	type?: string;
-	size?: string | ((contentProps?: TContentProps) => string);
-	whatever?: any;
-};
-
-export type TModalProps = {
-	type: string;
-	size: string;
+export type TOpenModalProps = TModalProps & {
+	size?: string | ((childrenProps?: TContentProps) => string);
 };
 
 export type TModalOpen = (
-	content: TContentComponent,
+	modalChildren: TContentComponent,
 	props: TOpenModalProps,
 	onResolve?: () => void,
 	onReject?: () => void
