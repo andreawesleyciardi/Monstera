@@ -8,17 +8,29 @@ import {
 	TOpenModalProps,
 	THandleResult,
 } from './Modal.types';
-import { Modal } from './../../components/molecules/modal/Modal';
 import {
-	TContentComponent,
-	TContentProps,
+	Modal,
+	TModalChildren,
+	TModalChildrenProps,
 	TModalProps,
-} from './../../components/molecules/modal/Modal.types';
+} from './../../components/molecules/modal';
+import { TFullSizes } from './../../utilities/Types';
 
 const modalConfigurator = (props: TOpenModalProps) => {
-	let { type = 'default', size = 'md', ...modalChildrenProps } = props;
+	let {
+		disableEscapeKeyDown,
+		fullScreen,
+		fullWidth,
+		scroll,
+		size,
+		...modalChildrenProps
+	} = props;
+
 	const modalProps = {
-		type,
+		disableEscapeKeyDown,
+		fullScreen,
+		fullWidth,
+		scroll,
 		size: typeof size === 'function' ? size(modalChildrenProps) : size,
 	};
 
@@ -32,13 +44,15 @@ const modalConfigurator = (props: TOpenModalProps) => {
 
 const ModalContext = React.createContext<TModalContext | null>(null);
 
-export const ModalProvider: any = ({ children }: TModalProvider) => {
+export const ModalProvider: any = (props: TModalProvider) => {
+	let { children } = props;
 	const [show, setShow] = useState<boolean>(false);
 
-	const [modalChildren, setModalChildren] =
-		useState<TContentComponent | null>(null);
+	const [modalChildren, setModalChildren] = useState<TModalChildren | null>(
+		null
+	);
 	const [modalChildrenProps, setModalChildrenProps] =
-		useState<TContentProps | null>(null);
+		useState<TModalChildrenProps | null>(null);
 	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
 
 	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
@@ -50,12 +64,12 @@ export const ModalProvider: any = ({ children }: TModalProvider) => {
 
 	const handleOpen: TModalOpen = (
 		modalChildren,
-		props,
+		openModalProps,
 		onResolve,
 		onReject
 	) => {
 		let { parsedModalChildrenProps, parsedModalProps } =
-			modalConfigurator(props);
+			modalConfigurator(openModalProps);
 		setModalChildren(modalChildren);
 		setModalChildrenProps(parsedModalChildrenProps);
 		setModalProps(parsedModalProps);

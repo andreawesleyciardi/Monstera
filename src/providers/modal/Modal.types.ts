@@ -1,16 +1,19 @@
+import { TFullSizes } from './../../utilities/Types';
 import {
-	TContentComponent,
-	TContentProps,
+	TModalChildren,
+	TModalChildrenProps,
 	TModalProps,
 } from './../../components/molecules/modal/Modal.types';
 
 export type TOpenModalProps = TModalProps & {
-	size?: string | ((childrenProps?: TContentProps) => string);
+	size?:
+		| TFullSizes
+		| ((modalChildrenProps?: TModalChildrenProps) => TFullSizes);
 };
 
 export type TModalOpen = (
-	modalChildren: TContentComponent,
-	props: TOpenModalProps,
+	modalChildren: TModalChildren,
+	openModalProps: TOpenModalProps,
 	onResolve?: () => void,
 	onReject?: () => void
 ) => void;

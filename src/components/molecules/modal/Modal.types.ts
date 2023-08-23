@@ -1,18 +1,23 @@
-export type TContentComponent = React.FunctionComponent;
+import { TFullSizes, TVariants } from './../../../utilities/Types';
+import { TContentVariants } from '../content/Content.types';
 
-export type TContentProps = object;
+export type TModalChildren = React.FunctionComponent;
+
+export type TModalChildrenProps = object;
 
 export type TModalProps = {
 	disableEscapeKeyDown?: boolean;
 	fullScreen?: boolean;
-	size?: string;
-	type?: string;
+	fullWidth?: boolean;
+	scroll?: 'body' | 'paper';
+	size?: TFullSizes;
+	variant?: TContentVariants; // switch "type" for "variant" in UBIWebapp
 };
 
 export type TModal = {
 	show: boolean;
-	children: TContentComponent | null;
-	childrenProps: TContentProps | null;
+	children: TModalChildren | null;
+	childrenProps: TModalChildrenProps | null;
 	modalProps: TModalProps | null;
 };
 
