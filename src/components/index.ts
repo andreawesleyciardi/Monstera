@@ -1,2 +1,1 @@
-export * from './alert/';
-export * from './buttons/';
+export * from './atoms';

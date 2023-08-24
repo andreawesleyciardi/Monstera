@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { AlertProvider, useAlert } from './Alert';
 import { ThemeProvider } from '../theme/Theme';
-import { Button } from './../../components/buttons/button/Button';
+import { Button } from '../../components/atoms/buttons/button/Button';
 import { arrayVariants } from '../../utilities/Services';
 import { EPositions, TVariants } from '../../utilities/Types';
 

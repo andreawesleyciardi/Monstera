@@ -79,6 +79,6 @@ export type TThemeContext = {
 };
 
 export type TThemeProvider = {
-	children: any;
+	children: React.ReactNode;
 	customBrand?: IBrand;
 };

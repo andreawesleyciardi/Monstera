@@ -10,13 +10,15 @@ import moment from 'moment';
 import { TVariants } from '../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
 import {
+	Alerts,
+	AlertsRef,
 	TAlertConfig,
 	TAlertConfigured,
 	TAlertContext,
 	TAlertProvider,
 } from './Alert.types';
 import { StyledAlertProvider } from './Alert.styles';
-import { Alert } from '../../components/alert/Alert';
+import { Alert } from '../../components/atoms/alert/Alert';
 
 const alertConfigurator = (
 	{ delay = 0, ...alertProps }: TAlertConfig,
@@ -33,15 +35,9 @@ const alertConfigurator = (
 	};
 };
 
+// Provider
+
 const AlertContext = React.createContext<TAlertContext | null>(null);
-
-type Alerts = {
-	[id: string]: TAlertConfigured;
-};
-
-type AlertsRef = {
-	[id: string]: HTMLElement;
-};
 
 export const AlertProvider: any = (props: TAlertProvider) => {
 	const [newAlert, setNewAlert] = useState<TAlertConfigured | null>(null);
@@ -154,9 +150,9 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 	);
 };
 
+// Hook
+
 export const useAlert = () => {
 	let alertContext = useContext(AlertContext);
 	return alertContext;
 };
-
-// To manage the prop "position"

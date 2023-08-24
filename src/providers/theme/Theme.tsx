@@ -12,7 +12,12 @@ import {
 	TThemeName,
 	TThemeProvider,
 } from './Theme.types';
-import { defaultPalette, themeLight, themeDark } from './Theme.styles';
+import {
+	defaultPalette,
+	GlobalStyles,
+	themeLight,
+	themeDark,
+} from './Theme.styles';
 
 // Consts
 
@@ -114,12 +119,15 @@ export const ThemeProvider: any = (props: TThemeProvider) => {
 						colors: brandedTheme.colors,
 					}}
 				>
+					<GlobalStyles />
 					{children}
 				</StyledThemeProvider>
 			)}
 		</ThemeContext.Provider>
 	);
 };
+
+// Hook
 
 export const useTheme = () => {
 	let themeContext = useContext(ThemeContext);

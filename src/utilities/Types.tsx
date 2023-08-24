@@ -39,6 +39,7 @@ export type TProvider = {
 };
 
 export type TSizes = 'small' | 'medium' | 'large';
+export type TFullSizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type TVariants =
 	| 'danger'
