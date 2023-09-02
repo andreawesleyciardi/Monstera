@@ -1,18 +1,23 @@
-import { TFullSizes } from './../../utilities/Types';
-import {
-	TModalChildren,
-	TModalChildrenProps,
-	TModalProps,
-} from './../../components/molecules/modal/Modal.types';
+import { Breakpoint } from '@mui/material';
 
-export type TOpenModalProps = TModalProps & {
+import {
+	TModalProps,
+	TModalSize,
+} from './../../components/molecules/modal/Modal.types';
+import {
+	TContentChildren,
+	TContentChildrenProps,
+} from './../../components/molecules/content/Content.types';
+
+export type TOpenModalProps = TModalProps | {
 	size?:
-		| TFullSizes
-		| ((modalChildrenProps?: TModalChildrenProps) => TFullSizes);
+		| TModalSize
+		| ((modalChildrenProps?: TContentChildrenProps) => TModalSize);
+	[key: string]: any;
 };
 
 export type TModalOpen = (
-	modalChildren: TModalChildren,
+	modalChildren: TContentChildren,
 	openModalProps: TOpenModalProps,
 	onResolve?: () => void,
 	onReject?: () => void

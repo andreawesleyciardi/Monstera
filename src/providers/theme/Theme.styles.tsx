@@ -28,6 +28,11 @@ export const themeLight: ITheme = {
 		light: '#F3F3F5',
 		dark: '#333333',
 	},
+	components: {
+		widget: {
+			backgroundColor: '#FFFFFF',
+		},
+	},
 };
 
 export const themeDark: ITheme = {
@@ -39,6 +44,11 @@ export const themeDark: ITheme = {
 		widgetBackground: '#242A30',
 		light: '#333333',
 		dark: '#F3F3F5',
+	},
+	components: {
+		widget: {
+			backgroundColor: '#242A30',
+		},
 	},
 };
 

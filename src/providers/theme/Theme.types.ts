@@ -61,9 +61,16 @@ export type TThemeColors = {
 	widgetBackground: string;
 };
 
+export type TThemeComponents = {
+	widget: {
+		backgroundColor: string;
+	};
+};
+
 export interface ITheme {
 	name: TThemeName;
 	colors: TThemeColors;
+	components: TThemeComponents;
 }
 
 // Branded Theme

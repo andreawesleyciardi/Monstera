@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import _ from 'lodash';
 
@@ -117,6 +117,7 @@ export const ThemeProvider: any = (props: TThemeProvider) => {
 					theme={{
 						name: brandedTheme.name,
 						colors: brandedTheme.colors,
+						components: brandedTheme.components,
 					}}
 				>
 					<GlobalStyles />

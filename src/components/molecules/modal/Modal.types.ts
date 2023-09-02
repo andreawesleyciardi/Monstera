@@ -1,24 +1,28 @@
+import { Breakpoint } from '@mui/material';
+
 import { TFullSizes, TVariants } from './../../../utilities/Types';
-import { TContentVariants } from '../content/Content.types';
+import {
+	TContentVariants,
+	TContentChildren,
+	TContentChildrenProps,
+} from '../content/Content.types';
 
-export type TModalChildren = React.FunctionComponent;
-
-export type TModalChildrenProps = object;
+export type TModalSize = Breakpoint | false | undefined;
 
 export type TModalProps = {
 	disableEscapeKeyDown?: boolean;
 	fullScreen?: boolean;
 	fullWidth?: boolean;
 	scroll?: 'body' | 'paper';
-	size?: TFullSizes;
+	size: TModalSize;
 	variant?: TContentVariants; // switch "type" for "variant" in UBIWebapp
 };
 
 export type TModal = {
-	show: boolean;
-	children: TModalChildren | null;
-	childrenProps: TModalChildrenProps | null;
+	children: TContentChildren;
+	childrenProps: TContentChildrenProps;
 	modalProps: TModalProps | null;
+	show: boolean;
 };
 
 export type IStyledModal = {

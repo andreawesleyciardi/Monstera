@@ -1,9 +1,10 @@
 import React from 'react';
 import Dialog from '@mui/material/Dialog';
+import { Breakpoint } from '@mui/material';
 
-import { TModal, TModalProps } from './Modal.types';
-import { Content, TContentVariants } from '../content';
-// import {} from './Modal.styles';
+import { TModal, TModalProps, TModalSize } from './Modal.types';
+import { StyledModal } from './Modal.styles';
+import { Content, TContentVariants, TContentChildren } from '../content';
 
 export const Modal = (props: TModal) => {
 	let { show, children, childrenProps, modalProps } = props;
@@ -11,10 +12,10 @@ export const Modal = (props: TModal) => {
 	let {
 		disableEscapeKeyDown = true,
 		fullScreen = false,
-		fullWidth = false,
+		fullWidth = true,
 		scroll = 'paper',
-		size = 'md',
-		variant = 'default',
+		size = 'sm' as TModalSize,
+		variant = 'bars',
 	} = modalProps as TModalProps;
 
 	return (
@@ -24,9 +25,14 @@ export const Modal = (props: TModal) => {
 			fullWidth={fullWidth}
 			maxWidth={size}
 			open={show}
+			PaperProps={{ elevation: 0, square: true }}
 			scroll={scroll}
 		>
-			<Content variant={variant as TContentVariants} />
+			<Content
+				variant={variant as TContentVariants}
+				children={children as TContentChildren}
+				childrenProps={childrenProps}
+			/>
 		</Dialog>
 	);
 };

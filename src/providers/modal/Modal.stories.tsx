@@ -3,14 +3,21 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { ModalProvider, useModal } from './Modal';
+import { TOpenModalProps } from './Modal.types';
 import { ThemeProvider } from '../theme/Theme';
+import {
+	TContentChildren,
+	TContentChildrenProps,
+} from '../../components/molecules/content/Content.types';
 import { Button } from '../../components/atoms/buttons/button/Button';
 
 const Template = () => {
 	const StoryBody = () => {
 		const usemodal = useModal();
 
-		const Content = () => <div>Content Component</div>;
+		const test = (props: TContentChildrenProps) => {
+			return <div>Content Component {props.test}</div>;
+		};
 
 		const onResolve = () => {
 			alert('onResolve function');
@@ -23,7 +30,12 @@ const Template = () => {
 		return (
 			<Button
 				onClick={(e) => {
-					usemodal.open(Content, {}, onResolve, onReject);
+					usemodal.open(
+						test,
+						{ test: 'xxx' } as TOpenModalProps,
+						onResolve,
+						onReject
+					);
 				}}
 			>
 				Open Modal

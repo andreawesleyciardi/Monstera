@@ -3,11 +3,15 @@ import { styled } from '@mui/material/styles';
 
 import { IStyledModal } from './Modal.types';
 
-export const StyledModal = styled(Dialog)(({ theme }) => ({
-	'& .MuiDialogContent-root': {
-		padding: theme.spacing(2),
-	},
-	'& .MuiDialogActions-root': {
-		padding: theme.spacing(1),
-	},
-}));
+export const StyledModal = styled(Dialog)(({ theme }) => {
+	console.log(theme);
+	return {
+		'& .MuiDialogContent-root': {
+			padding: theme.spacing(2),
+		},
+		'& .MuiDialogActions-root': {
+			padding: theme.spacing(1),
+		},
+		'& .MuiDialog-paper': {},
+	};
+});
