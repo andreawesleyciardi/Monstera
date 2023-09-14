@@ -51,16 +51,19 @@ const Template = ({ children, ...args }) => {
 
 	const gigjoBrand: IBrand = {
 		colors: {
-			brand: {
-				bars: '#121453',
-				interactive: '#C38A5F',
-			},
 			palette: gigjoPalette,
 			variants: paletteToVariants(gigjoPalette),
 		},
-		logo: 'https://dev-gigjo.oseven.io/branding/gigdrive/web_mobile_logo.png',
-		safeMiles: { name: null },
-		isBranded: true,
+		brand: {
+			colors: {
+				bars: '#121453',
+				interactive: '#C38A5F',
+			},
+			isBranded: true,
+			logo: { main: 'web_mobile_logo.png' },
+			logosRootUrl: 'https://dev-gigjo.oseven.io/branding/gigdrive/',
+			safeMiles: { name: null },
+		},
 	};
 
 	return (

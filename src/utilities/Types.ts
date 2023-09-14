@@ -1,5 +1,11 @@
 import React from 'react';
 
+export type TChildren = (props: {
+	[key: string]: any;
+}) => React.JSX.Element | null;
+
+export type TChildrenProps = { [key: string]: any } | null;
+
 export type TCoords = {
 	x: number;
 	y: number;

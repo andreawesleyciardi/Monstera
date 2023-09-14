@@ -1,3 +1,4 @@
 export * from './alert/';
-export * from './modal/';
+export * from './dialog/';
+export * from './template';
 export * from './theme/';

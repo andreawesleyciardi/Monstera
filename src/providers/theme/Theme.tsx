@@ -43,15 +43,18 @@ const themes = {
 
 export const defaultBrand: IBrand = {
 	colors: {
-		brand: {
-			bars: '#242A30',
-			interactive: '#46BEDC',
-		},
 		palette: defaultPalette,
 		variants: defaultVariants,
 	},
-	logo: 'https://dev-o7drivers.oseven.io/branding/oseven/web_mobile_logo.png',
-	safeMiles: { name: 'SafeMiles' },
+	brand: {
+		colors: {
+			bars: '#242A30',
+			interactive: '#46BEDC',
+		},
+		logo: { main: 'web_mobile_logo.png' },
+		logosRootUrl: 'https://dev-o7drivers.oseven.io/branding/oseven/',
+		safeMiles: { name: 'SafeMiles' },
+	},
 	isBranded: false,
 };
 
@@ -115,9 +118,11 @@ export const ThemeProvider: any = (props: TThemeProvider) => {
 			{brandedTheme && (
 				<StyledThemeProvider
 					theme={{
-						name: brandedTheme.name,
+						brand: brandedTheme.brand,
 						colors: brandedTheme.colors,
 						components: brandedTheme.components,
+						isBranded: brandedTheme.isBranded,
+						name: brandedTheme.name,
 					}}
 				>
 					<GlobalStyles />

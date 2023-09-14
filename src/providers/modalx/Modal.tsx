@@ -8,12 +8,8 @@ import {
 	TOpenModalProps,
 	THandleResult,
 } from './Modal.types';
-import { Modal, TModalProps } from './../../components/molecules/modal';
-import {
-	TContentChildren,
-	TContentChildrenProps,
-} from './../../components/molecules/content/Content.types';
-import { TFullSizes } from './../../utilities/Types';
+import { Modal, TModalProps } from '../../components';
+import { TChildren, TChildrenProps, TFullSizes } from './../../utilities';
 
 const modalConfigurator = (props: TOpenModalProps) => {
 	let {
@@ -47,12 +43,10 @@ export const ModalProvider: any = (props: TModalProvider) => {
 	let { children } = props;
 	const [show, setShow] = useState<boolean>(false);
 
-	const [modalChildren, setModalChildren] = useState<TContentChildren | null>(
-		null
-	);
+	const [modalChildren, setModalChildren] = useState<TChildren | null>(null);
 
 	const [modalChildrenProps, setModalChildrenProps] =
-		useState<TContentChildrenProps>(null);
+		useState<TChildrenProps>(null);
 	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
 	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
 		null

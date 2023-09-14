@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { TCssCoords, TPositions, TVariants } from '../../utilities/Types';
 import { TAlertBase } from '../../components/atoms/alert/Alert.types';
 
@@ -19,6 +17,7 @@ export type TAlertProvider = {
 export type TStyledAlertProvider = {
 	$offset: TCssCoords;
 	$position: TPositions;
+	$variant: 'backdrop' | 'default';
 };
 
 export type TAlertContext = {

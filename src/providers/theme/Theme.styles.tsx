@@ -21,15 +21,16 @@ export const defaultPalette: TBrandPalette = {
 export const themeLight: ITheme = {
 	name: 'light',
 	colors: {
-		bodyBackground: '#F3F3F5',
 		fontColor: '#333333',
 		inverseFontColor: '#FFFFFF',
-		widgetBackground: '#FFFFFF',
 		light: '#F3F3F5',
 		dark: '#333333',
 	},
 	components: {
-		widget: {
+		body: {
+			backgroundColor: '#F3F3F5',
+		},
+		content: {
 			backgroundColor: '#FFFFFF',
 		},
 	},
@@ -38,15 +39,16 @@ export const themeLight: ITheme = {
 export const themeDark: ITheme = {
 	name: 'dark',
 	colors: {
-		bodyBackground: '#0D1117',
 		fontColor: '#FFFFFF',
 		inverseFontColor: '#333333',
-		widgetBackground: '#242A30',
 		light: '#333333',
 		dark: '#F3F3F5',
 	},
 	components: {
-		widget: {
+		body: {
+			backgroundColor: '#0D1117',
+		},
+		content: {
 			backgroundColor: '#242A30',
 		},
 	},
@@ -54,7 +56,8 @@ export const themeDark: ITheme = {
 
 export const GlobalStyles = createGlobalStyle`
     body {
-        background-color: ${({ theme }) => theme.colors.bodyBackground};
+        background-color: ${({ theme }) =>
+			theme.components.body.backgroundColor};
         color: ${({ theme }) => theme.colors.fontColor};
         font-family: monospace;
         overflow-x: hidden;

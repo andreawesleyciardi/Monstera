@@ -27,7 +27,10 @@ const Template = (args) => {
 						variant={item as TVariants}
 						fullWidth={true}
 						onClick={(e) => {
-							usealert[item](`I'm a ${item} alert`);
+							usealert[item](
+								`I'm a ${item} alert`,
+								args.backdrop
+							);
 						}}
 						key={item}
 					>
@@ -91,6 +94,18 @@ const meta: Meta<typeof AlertProvider> = {
 			table: {
 				defaultValue: {
 					summary: 'top-right',
+				},
+			},
+		},
+		backdrop: {
+			description:
+				'Defines if behind the alert will be rendered a backdrop',
+
+			control: { type: 'boolean' },
+			defaultValue: 'false',
+			table: {
+				defaultValue: {
+					summary: 'false',
 				},
 			},
 		},
