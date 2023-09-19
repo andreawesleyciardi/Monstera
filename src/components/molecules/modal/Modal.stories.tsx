@@ -54,7 +54,7 @@ const Template = (args) => {
 			>
 				Open {args.variant} modal
 			</Button>
-			{['default', 'bars'].concat(arrayVariants).map((item) => (
+			{/* {['default', 'bars'].concat(arrayVariants).map((item) => (
 				<Button
 					variant={
 						(['default', 'bars'].includes(item)
@@ -78,7 +78,7 @@ const Template = (args) => {
 				>
 					Open {item} modal
 				</Button>
-			))}
+			))} */}
 		</div>
 	);
 };
@@ -98,10 +98,10 @@ const meta: Meta<typeof ModalComponent> = {
 	argTypes: {
 		variant: {
 			description: 'Enter here the description',
-			defaultValue: 'success',
+			defaultValue: 'bars',
 			table: {
 				defaultValue: {
-					summary: 'success',
+					summary: 'bars',
 				},
 			},
 		},
