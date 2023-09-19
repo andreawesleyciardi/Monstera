@@ -20,6 +20,8 @@ import {
 import { StyledAlertProvider } from './Alert.styles';
 import { Alert } from '../../components/atoms/alert/Alert';
 
+// Add a prop "callback" if I want to execute a function after the alert disappears.
+
 const alertConfigurator = (
 	{ delay = 0, ...alertProps }: TAlertConfig,
 	duration: number | undefined
@@ -44,6 +46,7 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 	const [removeAlert, setRemoveAlert] = useState<TAlertConfigured | null>(
 		null
 	);
+	const [backdrop, setBackdrop] = useState<string | null>(null);
 	const [alerts, setAlerts] = useState<Alerts>({});
 
 	const alertsRef = useRef<AlertsRef>({});
@@ -57,6 +60,7 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 
 	const handleAdd = (
 		alertConfig: TAlertConfig | string,
+		hasBackdrop: boolean,
 		variant: TVariants
 	) => {
 		let alertConfigObj = (
@@ -76,6 +80,9 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 		if (alertElement != null) {
 			setTimeout(() => {
 				setNewAlert(alertElement);
+				if (hasBackdrop == true) {
+					setBackdrop(alertElement.id);
+				}
 			}, alertElement.delay);
 		}
 	};
@@ -107,6 +114,9 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 					delete listAlerts[removeAlert.id];
 					setAlerts(listAlerts);
 					setRemoveAlert(null);
+					if (backdrop != null && backdrop == removeAlert.id) {
+						setBackdrop(null);
+					}
 				};
 			}
 		}
@@ -114,9 +124,12 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 
 	let variantsMethods: any = {};
 	for (let i = 0; i < arrayVariants.length; i++) {
-		variantsMethods[arrayVariants[i]] = (alertConfig: TAlertConfig) => {
+		variantsMethods[arrayVariants[i]] = (
+			alertConfig: TAlertConfig,
+			hasBackdrop: boolean
+		) => {
 			const variant = arrayVariants[i] as TVariants;
-			handleAdd(alertConfig, variant);
+			handleAdd(alertConfig, hasBackdrop, variant);
 		};
 	}
 
@@ -129,7 +142,11 @@ export const AlertProvider: any = (props: TAlertProvider) => {
 			}}
 		>
 			{children}
-			<StyledAlertProvider $position={position} $offset={offset}>
+			<StyledAlertProvider
+				$position={position}
+				$offset={offset}
+				$variant={backdrop != null ? 'backdrop' : 'default'}
+			>
 				{Object.keys(alerts).length > 0 &&
 					Object.keys(alerts).map((key: string, index) => {
 						let { id, alertProps } = alerts[key];

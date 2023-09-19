@@ -14,7 +14,7 @@ export interface IButton {
 	onClick: MouseEventHandler<HTMLButtonElement>;
 	size?: TSizes;
 	type?: TButtonType;
-	variant?: TVariants;
+	variant?: TVariants | string;
 }
 
 export interface IStyledButton {

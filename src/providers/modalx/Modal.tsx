@@ -8,13 +8,8 @@ import {
 	TOpenModalProps,
 	THandleResult,
 } from './Modal.types';
-import {
-	Modal,
-	TModalChildren,
-	TModalChildrenProps,
-	TModalProps,
-} from './../../components/molecules/modal';
-import { TFullSizes } from './../../utilities/Types';
+import { Modal, TModalProps } from '../../components';
+import { TChildren, TChildrenProps, TFullSizes } from './../../utilities';
 
 const modalConfigurator = (props: TOpenModalProps) => {
 	let {
@@ -48,13 +43,11 @@ export const ModalProvider: any = (props: TModalProvider) => {
 	let { children } = props;
 	const [show, setShow] = useState<boolean>(false);
 
-	const [modalChildren, setModalChildren] = useState<TModalChildren | null>(
-		null
-	);
-	const [modalChildrenProps, setModalChildrenProps] =
-		useState<TModalChildrenProps | null>(null);
-	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
+	const [modalChildren, setModalChildren] = useState<TChildren | null>(null);
 
+	const [modalChildrenProps, setModalChildrenProps] =
+		useState<TChildrenProps>(null);
+	const [modalProps, setModalProps] = useState<TModalProps | null>(null);
 	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
 		null
 	);
@@ -70,7 +63,7 @@ export const ModalProvider: any = (props: TModalProvider) => {
 	) => {
 		let { parsedModalChildrenProps, parsedModalProps } =
 			modalConfigurator(openModalProps);
-		setModalChildren(modalChildren);
+		setModalChildren(() => modalChildren);
 		setModalChildrenProps(parsedModalChildrenProps);
 		setModalProps(parsedModalProps);
 		setHandleResolve(() => onResolve);

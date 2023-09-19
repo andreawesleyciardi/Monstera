@@ -25,10 +25,9 @@ export const getStyledBackgroundColor = (
 	theme: ITheme | DefaultTheme,
 	variant: TVariants
 ) => {
-	// debugger;
 	return ['light', 'dark'].includes(variant) == true
 		? theme.colors[variant]
-		: theme.colors.variants[variant];
+		: theme.colors.variants[variant] ?? theme.colors.variants.primary;
 };
 
 export const arrayVariants = [

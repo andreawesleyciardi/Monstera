@@ -1,3 +1,5 @@
+import { TThemeContent, TThemeWidget } from './../../components';
+
 // Brand
 
 export type TBrandPalette = {
@@ -32,7 +34,6 @@ export type TBrandColors = {
 };
 
 type TBrandColorsGroups = {
-	brand: TBrandColors;
 	palette: TBrandPalette;
 	variants: TBrandVariants;
 };
@@ -41,10 +42,17 @@ type TBrandSafemiles = {
 	name: string;
 };
 
+export type TBrand = {
+	colors: TBrandColors;
+	logo?: string | { [key: string]: string };
+	logosRootUrl?: string;
+	safeMiles?: TBrandSafemiles;
+	[key: string]: any;
+};
+
 export interface IBrand {
 	colors: TBrandColorsGroups;
-	logo: string;
-	safeMiles: TBrandSafemiles;
+	brand: TBrand;
 	isBranded: boolean;
 }
 
@@ -53,17 +61,24 @@ export interface IBrand {
 export type TThemeName = 'light' | 'dark';
 
 export type TThemeColors = {
-	bodyBackground: string;
 	dark: string;
 	fontColor: string;
 	inverseFontColor: string;
 	light: string;
-	widgetBackground: string;
+};
+
+export type TThemeComponents = {
+	body?: {
+		backgroundColor: string;
+	};
+	content?: TThemeContent;
+	widget?: TThemeWidget;
 };
 
 export interface ITheme {
 	name: TThemeName;
 	colors: TThemeColors;
+	components: TThemeComponents;
 }
 
 // Branded Theme
