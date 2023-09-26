@@ -1,5 +1,10 @@
 import React from 'react';
-import { TChildren, TChildrenProps, TVariants } from '../../../utilities/Types';
+import {
+	TAlign,
+	TElement,
+	TElementProps,
+	TVariants,
+} from '../../../utilities/Types';
 
 export type TContentVariants = TVariants | 'bars' | 'default';
 
@@ -8,12 +13,14 @@ export type TContent = {
 };
 
 export type TContentHeader = {
-	children: any;
+	align?: TAlign;
+	children?: any;
 	variant?: TContentVariants;
 };
 
 export type TStyledContentHeader = {
-	$variant?: TContentVariants;
+	$align: TAlign;
+	$variant: TContentVariants;
 };
 
 export type TContentBody = {

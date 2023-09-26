@@ -6,7 +6,7 @@ import { Modal as ModalComponent, useModal } from './Modal';
 import { DialogProvider } from '../../../providers';
 
 import { ThemeProvider, TOpenDialogProps } from '../../../providers';
-import { TChildren, TChildrenProps, TVariants } from '../../../utilities';
+import { TElement, TElementProps, TVariants } from '../../../utilities';
 import { arrayVariants } from '../../../utilities';
 import { Button } from '../..';
 
@@ -28,12 +28,7 @@ const Template = (args) => {
 	return (
 		<div
 			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '2rem',
-				alignItems: 'flex-start',
 				width: '15rem',
-				padding: '2rem',
 			}}
 		>
 			<Button
@@ -54,32 +49,44 @@ const Template = (args) => {
 			>
 				Open {args.variant} modal
 			</Button>
-			{/* {['default', 'bars'].concat(arrayVariants).map((item) => (
-				<Button
-					variant={
-						(['default', 'bars'].includes(item)
-							? 'primary'
-							: item) as TVariants
-					}
-					fullWidth={true}
-					onClick={(e) => {
-						usemodal.open(
-							ModalContent,
-							{
-								title: `${item} modal`,
-								bodyContent: 'Main content Modal',
-								variant: item,
-							} as TOpenDialogProps,
-							onResolve,
-							onReject
-						);
-					}}
-					key={item}
-				>
-					Open {item} modal
-				</Button>
-			))} */}
 		</div>
+		// <div
+		// 	style={{
+		// 		display: 'flex',
+		// 		flexDirection: 'column',
+		// 		gap: '2rem',
+		// 		alignItems: 'flex-start',
+		// 		width: '15rem',
+		// 		padding: '2rem',
+		// 	}}
+		// >
+
+		// 	{['default', 'bars'].concat(arrayVariants).map((item) => (
+		// 		<Button
+		// 			variant={
+		// 				(['default', 'bars'].includes(item)
+		// 					? 'primary'
+		// 					: item) as TVariants
+		// 			}
+		// 			fullWidth={true}
+		// 			onClick={(e) => {
+		// 				usemodal.open(
+		// 					ModalContent,
+		// 					{
+		// 						title: `${item} modal`,
+		// 						bodyContent: 'Main content Modal',
+		// 						variant: item,
+		// 					} as TOpenDialogProps,
+		// 					onResolve,
+		// 					onReject
+		// 				);
+		// 			}}
+		// 			key={item}
+		// 		>
+		// 			Open {item} modal
+		// 		</Button>
+		// 	))}
+		// </div>
 	);
 };
 

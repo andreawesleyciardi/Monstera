@@ -66,10 +66,10 @@ const meta: Meta<typeof AlertProvider> = {
 			description:
 				'Defines for how many milliseconds each alerts will be visible before to fadeout automatically.',
 			control: { type: 'number' },
-			defaultValue: 3000,
+			defaultValue: 4000,
 			table: {
 				defaultValue: {
-					summary: 3000,
+					summary: 4000,
 				},
 			},
 		},

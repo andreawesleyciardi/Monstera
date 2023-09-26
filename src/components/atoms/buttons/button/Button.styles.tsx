@@ -23,16 +23,19 @@ const StyledButton = styled.button<IStyledButton>`
 			: $size === 'medium'
 			? '9px 30px 11px'
 			: '14px 30px 16px'};
-	color: ${(props) => {
-		return getStyledColor(props.theme, props.$variant);
-	}};
-	background-color: ${(props) => {
-		return getStyledBackgroundColor(props.theme, props.$variant);
-	}};
+	color: ${({ theme, $variant }) =>
+		$variant === 'link'
+			? theme.colors.variants.primary
+			: getStyledColor(theme, $variant)};
+	background-color: ${({ theme, $variant }) =>
+		$variant === 'link'
+			? 'transparent'
+			: getStyledBackgroundColor(theme, $variant)};
 	opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 	&:hover {
 		filter: brightness(0.9);
 	}
+	white-space: nowrap;
 `;
 
 export { StyledButton };

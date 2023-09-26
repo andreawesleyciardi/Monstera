@@ -1,6 +1,6 @@
 import { Breakpoint } from '@mui/material';
 
-import { TChildren, TChildrenProps } from './../../utilities';
+import { TElement, TElementProps } from './../../utilities';
 
 export type TDialogSize = Breakpoint | false | undefined;
 
@@ -21,16 +21,16 @@ export type TOpenDialogProps =
 	| {
 			size?:
 				| TDialogSize
-				| ((dialogChildrenProps?: TChildrenProps) => TDialogSize);
+				| ((dialogChildrenProps?: TElementProps) => TDialogSize);
 			[key: string]: any;
 	  };
 
 export type TDialogOpen = (
-	dialogChildren: TChildren,
+	dialogChildren: TElement,
 	openDialogProps: TOpenDialogProps,
 	onResolve?: () => void,
 	onReject?: () => void,
-	decorator?: TChildren | null
+	decorator?: TElement | null
 ) => void;
 
 export type TDialogClose = (

@@ -69,7 +69,9 @@ export type TThemeColors = {
 
 export type TThemeComponents = {
 	body?: {
-		backgroundColor: string;
+		backgroundColor?: string;
+		fontFamily?: string;
+		fontSize?: string;
 	};
 	content?: TThemeContent;
 	widget?: TThemeWidget;

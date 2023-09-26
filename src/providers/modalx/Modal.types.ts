@@ -3,20 +3,20 @@ import { Breakpoint } from '@mui/material';
 import {
 	TModalProps,
 	TModalSize,
-} from '../../components/organisms/modal/Modal.types';
-import { TChildren, TChildrenProps } from './../../utilities/Types';
+} from '../../components/molecules/modal/Modal.types';
+import { TElement, TElementProps } from '../../utilities/Types';
 
 export type TOpenModalProps =
 	| TModalProps
 	| {
 			size?:
 				| TModalSize
-				| ((modalChildrenProps?: TChildrenProps) => TModalSize);
+				| ((modalChildrenProps?: TElementProps) => TModalSize);
 			[key: string]: any;
 	  };
 
 export type TModalOpen = (
-	modalChildren: TChildren,
+	modalChildren: TElement,
 	openModalProps: TOpenModalProps,
 	onResolve?: () => void,
 	onReject?: () => void

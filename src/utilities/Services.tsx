@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 import { TVariants } from './Types';
 
-import { ITheme } from '../providers/theme/Theme.types';
+import { ITheme, TBrandedTheme } from '../providers/theme/Theme.types';
 
 export const getStyledColor = (
 	theme: ITheme | DefaultTheme,
@@ -22,12 +22,17 @@ export const getStyledColor = (
 };
 
 export const getStyledBackgroundColor = (
-	theme: ITheme | DefaultTheme,
+	theme: TBrandedTheme | DefaultTheme,
 	variant: TVariants
 ) => {
-	return ['light', 'dark'].includes(variant) == true
-		? theme.colors[variant]
-		: theme.colors.variants[variant] ?? theme.colors.variants.primary;
+	if (['light', 'dark'].includes(variant) == true) {
+		return theme.colors[variant];
+	}
+	return (
+		theme.brand?.colors?.[variant] ??
+		theme.colors.variants[variant] ??
+		theme.colors.variants.primary
+	);
 };
 
 export const arrayVariants = [
@@ -41,3 +46,8 @@ export const arrayVariants = [
 	'success',
 	'warning',
 ];
+
+export const isValidEmail = (value: string | null) =>
+	/^((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))|((([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))+[;,]{1,1})$/.test(
+		value != null ? value : ''
+	);

@@ -10,7 +10,7 @@ import {
 	ContentFooter,
 	ContentHeader,
 } from '../../components/molecules/content/Content';
-import { TChildren, TChildrenProps, TVariants } from './../../utilities/Types';
+import { TElement, TElementProps, TVariants } from '../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
 import { Button } from '../../components/atoms/buttons/button/Button';
 
@@ -18,7 +18,7 @@ const Template = () => {
 	const StoryBody = () => {
 		const usemodal = useModal();
 
-		const ModalContent = (props: TChildrenProps) => {
+		const ModalContent = (props: TElementProps) => {
 			const storyContent = () => {};
 
 			return (

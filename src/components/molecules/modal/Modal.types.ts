@@ -1,8 +1,8 @@
 import { Breakpoint } from '@mui/material';
 
 import {
-	TChildren,
-	TChildrenProps,
+	TElement,
+	TElementProps,
 	TFullSizes,
 	TVariants,
 } from '../../../utilities/Types';
@@ -15,7 +15,7 @@ export type TModalProps = {
 };
 
 export type TModal = {
-	children: TChildren;
+	children: TElement;
 	variant?: TContentVariants;
 	[key: string]: any;
 };

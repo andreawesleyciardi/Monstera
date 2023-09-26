@@ -1,10 +1,6 @@
 import React from 'react';
 
-export type TChildren = (props: {
-	[key: string]: any;
-}) => React.JSX.Element | null;
-
-export type TChildrenProps = { [key: string]: any } | null;
+export type TAlign = 'left' | 'center' | 'right';
 
 export type TCoords = {
 	x: number;
@@ -15,6 +11,12 @@ export type TCssCoords = {
 	x: string;
 	y: string;
 };
+
+export type TElement = (props: {
+	[key: string]: any;
+}) => React.JSX.Element | null;
+
+export type TElementProps = { [key: string]: any } | null;
 
 export type TPositions =
 	| 'center'

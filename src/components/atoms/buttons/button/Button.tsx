@@ -5,6 +5,7 @@ import { StyledButton } from './Button.styles';
 
 export const Button: React.FC<IButton> = ({
 	children,
+	className = '',
 	disabled = false,
 	fillMode = 'solid',
 	fullWidth = false,
@@ -17,6 +18,7 @@ export const Button: React.FC<IButton> = ({
 }) => {
 	return (
 		<StyledButton
+			className={`button button--${variant} ${className}`}
 			disabled={disabled}
 			$fillMode={fillMode}
 			$fullWidth={fullWidth}

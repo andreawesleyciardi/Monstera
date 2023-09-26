@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { TDialogOpen, useDialog } from '../../../providers';
 import { TModal, TModalProps, TModalSize } from './Modal.types';
 import { Content, ContentBody, ContentFooter, ContentHeader } from '..';
-import { TChildren } from './../../../utilities';
+import { TElement } from './../../../utilities';
 
 // Component
 export const Modal = (props: TModal) => {
@@ -51,7 +51,7 @@ export const useModal = () => {
 			openModalProps,
 			onResolve,
 			onReject,
-			Modal as TChildren
+			Modal as TElement
 		);
 	};
 	return {

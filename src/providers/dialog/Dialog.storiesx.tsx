@@ -2,23 +2,23 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { ModalProvider, useModal } from './Modal';
-import { TOpenModalProps } from './Modal.types';
+import { DialogProvider, useDialog } from './Dialog';
+import { TOpenDialogProps } from './Dialog.types';
 import { ThemeProvider } from '../theme/Theme';
 import {
 	ContentBody,
 	ContentFooter,
 	ContentHeader,
 } from '../../components/molecules/content/Content';
-import { TChildren, TChildrenProps, TVariants } from './../../utilities/Types';
+import { TElement, TElementProps, TVariants } from './../../utilities/Types';
 import { arrayVariants } from '../../utilities/Services';
 import { Button } from '../../components/atoms/buttons/button/Button';
 
 const Template = () => {
 	const StoryBody = () => {
-		const usemodal = useModal();
+		const usedialog = useDialog();
 
-		const ModalContent = (props: TChildrenProps) => {
+		const DialogContent = (props: TElementProps) => {
 			const storyContent = () => {};
 
 			return (
@@ -38,10 +38,10 @@ const Template = () => {
 							}
 							fullWidth={false}
 							onClick={(e) => {
-								usemodal.close(true);
+								usedialog.close(true);
 							}}
 						>
-							Close modal
+							Close dialog
 						</Button>
 					</ContentFooter>
 				</>
@@ -76,20 +76,20 @@ const Template = () => {
 						}
 						fullWidth={true}
 						onClick={(e) => {
-							usemodal.open(
-								ModalContent,
+							usedialog.open(
+								DialogContent,
 								{
-									title: `${item} modal`,
-									bodyContent: 'Main content Modal',
+									title: `${item} dialog`,
+									bodyContent: 'Main content Dialog',
 									variant: item,
-								} as TOpenModalProps,
+								} as TOpenDialogProps,
 								onResolve,
 								onReject
 							);
 						}}
 						key={item}
 					>
-						Open {item} modal
+						Open {item} dialog
 					</Button>
 				))}
 			</div>
@@ -97,15 +97,15 @@ const Template = () => {
 	};
 
 	return (
-		<ModalProvider>
+		<DialogProvider>
 			<StoryBody />
-		</ModalProvider>
+		</DialogProvider>
 	);
 };
 
-const meta: Meta<typeof ModalProvider> = {
-	title: 'Providers/Modal',
-	component: ModalProvider,
+const meta: Meta<typeof DialogProvider> = {
+	title: 'Providers/Dialog',
+	component: DialogProvider,
 	decorators: [
 		(Story) => (
 			<ThemeProvider>
@@ -117,6 +117,6 @@ const meta: Meta<typeof ModalProvider> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ModalProvider>;
+type Story = StoryObj<typeof DialogProvider>;
 
-export const Modal = Template.bind({});
+export const Dialog = Template.bind({});
