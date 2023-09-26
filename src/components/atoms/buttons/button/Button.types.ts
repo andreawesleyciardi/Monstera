@@ -5,8 +5,11 @@ type TButtonType = 'button' | 'submit' | 'reset';
 
 type TButtonFillMode = 'solid' | 'outline' | 'link';
 
+export type TButtonVariants = TVariants | 'link';
+
 export interface IButton {
 	children: any;
+	className?: string;
 	disabled?: boolean;
 	fillMode?: TButtonFillMode;
 	fullWidth?: boolean;
@@ -14,7 +17,7 @@ export interface IButton {
 	onClick: MouseEventHandler<HTMLButtonElement>;
 	size?: TSizes;
 	type?: TButtonType;
-	variant?: TVariants | string;
+	variant?: TButtonVariants;
 }
 
 export interface IStyledButton {
@@ -25,5 +28,5 @@ export interface IStyledButton {
 	onClick: MouseEventHandler<HTMLButtonElement>;
 	$size: TSizes;
 	type: TButtonType;
-	$variant: TVariants;
+	$variant: TButtonVariants;
 }

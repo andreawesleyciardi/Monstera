@@ -12,7 +12,7 @@ import {
 	TOpenDialogProps,
 	THandleResult,
 } from './Dialog.types';
-import { TChildren, TChildrenProps } from './../../utilities';
+import { TElement, TElementProps } from './../../utilities';
 
 const dialogConfigurator = (props: TOpenDialogProps) => {
 	let {
@@ -45,11 +45,9 @@ const DialogContext = React.createContext<TDialogContext | null>(null);
 export const DialogProvider: any = (props: TDialogProvider) => {
 	let { children } = props;
 	const [show, setShow] = useState<boolean>(false);
-	const [DialogChildren, setDialogChildren] = useState<TChildren | null>(
-		null
-	);
+	const [DialogChildren, setDialogChildren] = useState<TElement | null>(null);
 	const [dialogChildrenProps, setDialogChildrenProps] =
-		useState<TChildrenProps>(null);
+		useState<TElementProps>(null);
 	const [dialogProps, setDialogProps] = useState<TDialogProps | null>(null);
 	const [handleResolve, setHandleResolve] = useState<THandleResult | null>(
 		null
@@ -57,7 +55,7 @@ export const DialogProvider: any = (props: TDialogProvider) => {
 	const [handleReject, setHandleReject] = useState<THandleResult | null>(
 		null
 	);
-	const [Decorator, setDecorator] = useState<TChildren | null>(null);
+	const [Decorator, setDecorator] = useState<TElement | null>(null);
 
 	const handleOpen: TDialogOpen = (
 		dialogChildren,
@@ -73,7 +71,7 @@ export const DialogProvider: any = (props: TDialogProvider) => {
 		setDialogProps(parsedDialogProps);
 		setHandleResolve(() => onResolve);
 		setHandleReject(() => onReject);
-		setDecorator(() => decorator as TChildren);
+		setDecorator(() => decorator as TElement);
 	};
 
 	const handleClose: TDialogClose = (successful, result, params) => {

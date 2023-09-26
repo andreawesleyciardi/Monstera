@@ -27,10 +27,15 @@ export const Content = (props: TContent) => {
 	return <StyledContent>{children != null && children}</StyledContent>;
 };
 
-export const ContentHeader = (props: TContentHeader) => {
-	let { children, variant = 'default' } = props;
+export const ContentHeader = ({
+	children = null,
+	variant = 'default',
+	align = 'center',
+}: TContentHeader) => {
 	return (
-		<StyledContentHeader $variant={variant}>{children}</StyledContentHeader>
+		<StyledContentHeader $align={align} $variant={variant}>
+			{children != null && children}
+		</StyledContentHeader>
 	);
 };
 

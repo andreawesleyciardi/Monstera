@@ -1,11 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 
 import { Alert as AlertComponent } from './Alert';
-import { TAlert } from './Alert.types';
 import { ThemeProvider } from '../../../providers/theme/Theme';
-import { Button } from '../buttons/button/Button';
-import { arrayVariants } from '../../../utilities/Services';
 
 const Template = (args) => {
 	return (
@@ -32,7 +28,7 @@ const meta: Meta<typeof AlertComponent> = {
 	],
 	argTypes: {
 		variant: {
-			description: 'Enter here the description',
+			description: 'Defines the color of the alert',
 			defaultValue: 'success',
 			table: {
 				defaultValue: {
