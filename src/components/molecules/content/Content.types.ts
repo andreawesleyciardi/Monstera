@@ -3,6 +3,7 @@ import {
 	TAlign,
 	TElement,
 	TElementProps,
+	TThemedValue,
 	TVariants,
 } from '../../../utilities/Types';
 
@@ -32,5 +33,5 @@ export type TContentFooter = {
 };
 
 export type TThemeContent = {
-	backgroundColor: string;
+	backgroundColor: TThemedValue;
 };

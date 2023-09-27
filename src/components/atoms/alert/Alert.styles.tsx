@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import { shade, tint } from 'polished';
 
 import { IStyledAlert } from './Alert.types';
-import {
-	getStyledColor,
-	getStyledBackgroundColor,
-} from '../../../utilities/Services';
+import { getStyledBackgroundColor } from '../../../utilities/Services';
 
 export const StyledAlert = styled.div<IStyledAlert>`
 	display: flex;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TChips } from '../../chips';
+import { TChip } from '../../chip';
 
 export type TRecipients = {
 	className?: string;
@@ -9,7 +9,7 @@ export type TRecipients = {
 	onChange: (value: string[] | null) => void;
 	placeholder?: string;
 	separator?: string;
-	template?: React.FC<TChips>;
+	template?: React.FC<TChip>;
 	value?: string[] | null;
 };
 

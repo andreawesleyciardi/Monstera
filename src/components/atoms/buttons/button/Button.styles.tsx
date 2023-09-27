@@ -26,7 +26,7 @@ const StyledButton = styled.button<IStyledButton>`
 	color: ${({ theme, $variant }) =>
 		$variant === 'link'
 			? theme.colors.variants.primary
-			: getStyledColor(theme, $variant)};
+			: getStyledColor(theme, $variant, true)};
 	background-color: ${({ theme, $variant }) =>
 		$variant === 'link'
 			? 'transparent'

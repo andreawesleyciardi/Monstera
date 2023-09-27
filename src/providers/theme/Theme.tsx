@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import _ from 'lodash';
 
@@ -6,73 +6,111 @@ import {
 	IBrand,
 	ITheme,
 	TBrandedTheme,
-	TBrandPalette,
-	TBrandVariants,
+	TComponents,
+	TMonsteraComponents,
+	TMuiComponents,
+	TStyledThemeProvider,
 	TThemeContext,
 	TThemeName,
 	TThemeProvider,
 } from './Theme.types';
 import {
-	defaultPalette,
-	GlobalStyles,
-	themeLight,
+	defaultBrand,
+	defaultComponents,
+	paletteToVariants,
 	themeDark,
-} from './Theme.styles';
+	themeLight,
+} from './Theme.defaults';
+import { GlobalStyles } from './Theme.styles';
 
 // Consts
 
-export const paletteToVariants = (palette: TBrandPalette) => {
-	return {
-		danger: palette.alert,
-		info: palette.support,
-		low: palette.low,
-		primary: palette.highlight,
-		secondary: palette.secondaryTwo,
-		success: palette.success,
-		warning: palette.medium,
-	};
-};
+const defaultThemeKey = 'light';
 
-export const defaultVariants: TBrandVariants =
-	paletteToVariants(defaultPalette);
-
-const themes = {
+const defaultThemes = {
 	light: themeLight,
 	dark: themeDark,
 };
 
-export const defaultBrand: IBrand = {
-	colors: {
-		palette: defaultPalette,
-		variants: defaultVariants,
-	},
-	brand: {
-		colors: {
-			bars: '#242A30',
-			interactive: '#46BEDC',
-		},
-		logo: { main: 'web_mobile_logo.png' },
-		logosRootUrl: 'https://dev-o7drivers.oseven.io/branding/oseven/',
-		safeMiles: { name: 'SafeMiles' },
-	},
-	isBranded: false,
-};
-
-export const defaultTheme: ITheme = themes['light'];
+export const defaultTheme: ITheme = defaultThemes[defaultThemeKey];
 
 // Provider
 
 const ThemeContext = React.createContext<TThemeContext | null>(null);
 
-export const ThemeProvider: any = (props: TThemeProvider) => {
-	let { children, customBrand = {} } = props;
+export const ThemeProvider: any = ({ children, ...props }: TThemeProvider) => {
 	const [brand, setBrand] = useState<IBrand>(
-		_.merge({}, defaultBrand, customBrand)
+		_.merge({}, defaultBrand, props.customBrand)
 	);
 	const [theme, setTheme] = useState<ITheme>(defaultTheme);
+
 	const [brandedTheme, setBrandedTheme] = useState<TBrandedTheme | null>(
-		_.merge({}, defaultBrand, customBrand, themeLight)
+		_.merge({}, defaultBrand, props.customBrand, defaultTheme)
 	);
+	// to check if defaultTheme is needed in the following merge
+	const [components, setComponents] = useState<TComponents>(
+		_.merge({}, defaultComponents, props.customComponents)
+	);
+
+	const [monsteraComponents, setMonsteraComponents] =
+		useState<TMonsteraComponents>({});
+	const [muiComponents, setMuiComponents] = useState<TMuiComponents>({});
+
+	const parseComponents = (components: TComponents) => {
+		let monstera: TMonsteraComponents = {};
+		let mui: TMuiComponents = {};
+
+		Object.keys(components).forEach((key: string, index: number, array) => {
+			if ('|body|content|widget|'.indexOf(`|${key}|`) > -1) {
+				monstera[key] = components[key] as TMonsteraComponents;
+			} else {
+				mui[key] = components[key] as TMuiComponents;
+			}
+		});
+
+		return {
+			monstera: monstera,
+			mui: mui,
+		};
+	};
+
+	useEffect(() => {
+		if (components != null) {
+			let { monstera, mui } = parseComponents(components);
+			if (Object.keys(monstera).length > 0) {
+				setMonsteraComponents(
+					_.merge({}, monsteraComponents, monstera)
+				);
+			}
+			if (Object.keys(mui).length > 0) {
+				setMuiComponents(_.merge({}, muiComponents, mui));
+			}
+		}
+	}, [components]);
+
+	useLayoutEffect(() => {
+		setBrandedTheme(_.merge({}, brand, theme));
+	}, [brand, theme]);
+
+	// TO CHECK IF KEEP useLayoutEffect or useEffect
+	// useLayoutEffect(() => {
+	// const currentBrand = JSON.parse(localStorage.getItem('current-brand'));
+	// if (currentBrand) {
+	// 	setBrand(currentBrand);
+	// }
+	// const currentTheme = JSON.parse(localStorage.getItem('current-theme'));
+	// if (currentTheme) {
+	// 	setTheme(currentTheme);
+	// }
+	// }, []);
+
+	// Handlerer
+
+	const handleSetTheme = (themeKey: TThemeName) => {
+		const selectedTheme: ITheme = _.merge({}, defaultThemes[themeKey]);
+		setTheme(selectedTheme);
+		localStorage.setItem('current-theme', JSON.stringify(selectedTheme));
+	};
 
 	const handleSetBrand = (selectedBrand: IBrand) => {
 		setBrand(
@@ -85,45 +123,32 @@ export const ThemeProvider: any = (props: TThemeProvider) => {
 		localStorage.setItem('current-brand', JSON.stringify(selectedBrand));
 	};
 
-	const handleSetTheme = (themeKey: TThemeName) => {
-		const selectedTheme: ITheme = _.merge({}, themes[themeKey]);
-		setTheme(selectedTheme);
-		localStorage.setItem('current-theme', JSON.stringify(selectedTheme));
+	const handleSetComponents = (components: TComponents) => {
+		if (components != null) {
+			setComponents(components);
+		}
 	};
-
-	// TO CHECK IF KEEP useLayoutEffect or useEffect
-	useLayoutEffect(() => {
-		// const currentBrand = JSON.parse(localStorage.getItem('current-brand'));
-		// if (currentBrand) {
-		// 	setBrand(currentBrand);
-		// }
-		// const currentTheme = JSON.parse(localStorage.getItem('current-theme'));
-		// if (currentTheme) {
-		// 	setTheme(currentTheme);
-		// }
-	}, []);
-
-	useLayoutEffect(() => {
-		setBrandedTheme(_.merge({}, brand, theme));
-	}, [brand, theme]);
 
 	return (
 		<ThemeContext.Provider
 			value={{
 				setBrand: handleSetBrand,
 				setTheme: handleSetTheme,
+				setComponents: handleSetComponents,
 				brandedTheme: brandedTheme,
 			}}
 		>
 			{brandedTheme && (
 				<StyledThemeProvider
-					theme={{
-						brand: brandedTheme.brand,
-						colors: brandedTheme.colors,
-						components: brandedTheme.components,
-						isBranded: brandedTheme.isBranded,
-						name: brandedTheme.name,
-					}}
+					theme={
+						{
+							brand: brandedTheme.brand,
+							colors: brandedTheme.colors,
+							components: monsteraComponents,
+							isBranded: brandedTheme.isBranded,
+							name: brandedTheme.name,
+						} as TStyledThemeProvider
+					}
 				>
 					<GlobalStyles />
 					{children}

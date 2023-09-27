@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { IStyledChips } from './Chips.types';
+import { IStyledChip } from './Chip.types';
 
-export const StyledChips = styled.div<IStyledChips>`
+export const StyledChip = styled.div<IStyledChip>`
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;

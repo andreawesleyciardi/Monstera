@@ -9,4 +9,10 @@ export const StyledRecipients = styled.div<IStyledRecipients>`
 	justify-content: flex-start;
 	gap: 0.5rem;
 	position: relative;
+	.recipients__chips-container {
+		display: flex;
+		align-items: flex-start;
+		justify-content: flex-start;
+		gap: 0.5rem;
+	}
 `;

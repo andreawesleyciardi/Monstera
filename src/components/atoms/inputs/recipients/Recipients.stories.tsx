@@ -7,10 +7,7 @@ const Template = (args) => {
 	return (
 		<>
 			{/* <div style={{ display: 'flex', alignItems: 'flex-start' }}> */}
-			<RecipientsComponent
-				{...args}
-				// value={['test1', 'test2', 'test3']}
-			/>
+			<RecipientsComponent {...args} />
 			{/* </div> */}
 		</>
 	);
