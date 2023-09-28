@@ -87,8 +87,27 @@ export type TMonsteraComponents = {
 	[key: string]: any;
 };
 
-export type TMuiComponents = {
-	[key: string]: any;
+export type TThemeComponentArgs = {
+	defaultProps?: {
+		[key: string]: string;
+	};
+	styleOverrides?: {
+		[key: string]:
+			| {
+					[key: string]: string;
+			  }
+			| ((props: { [key: string]: any }) => void);
+	};
+};
+
+export type TThemeComponent = {
+	[key: string]: TThemeComponentArgs;
+};
+
+export type TThemeComponents = {
+	components: {
+		[key: string]: TThemeComponentArgs;
+	};
 };
 
 export type TComponents = TMuiComponents & TMonsteraComponents;

@@ -7,7 +7,10 @@ const Template = (args) => {
 	return (
 		<>
 			{/* <div style={{ display: 'flex', alignItems: 'flex-start' }}> */}
-			<RecipientsComponent {...args} />
+			<RecipientsComponent
+				{...args}
+				onChange={() => console.log('Value as changed.')}
+			/>
 			{/* </div> */}
 		</>
 	);
@@ -23,6 +26,19 @@ const meta: Meta<typeof RecipientsComponent> = {
 			</ThemeProvider>
 		),
 	],
+	argTypes: {
+		onChange: {
+			description: '',
+			defaultValue: () => {
+				console.log('Value as changed.');
+			},
+			table: {
+				defaultValue: {
+					summary: `console.log('Value as changed.')`,
+				},
+			},
+		},
+	},
 };
 
 export default meta;

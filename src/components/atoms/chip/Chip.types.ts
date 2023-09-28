@@ -1,8 +1,9 @@
 import React from 'react';
+import { ChipProps } from '@mui/material';
 
-export type TChip = {
-	onDelete?: (value: string) => void;
-	value?: any | null;
+export type TChip = ChipProps & {
+	label: string;
+	theme?: {
+		[key: string]: string;
+	};
 };
-
-export interface IStyledChip {}

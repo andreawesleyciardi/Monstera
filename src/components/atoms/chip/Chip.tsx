@@ -1,26 +1,32 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Chip as MuiChip } from '@mui/material';
+import { Chip as MuiChip, ChipProps } from '@mui/material';
 
-import { chipTheme } from './Chip.styles';
 import { TChip } from './Chip.types';
+import { monsteraChipTheme } from './Chip.styles';
+
+import { ComponentProvider } from '../../../services';
 
 export const Chip: React.FC<TChip> = React.memo(
-	({ onDelete = null, value = null }) => {
+	({ onDelete = null, theme, ...props }) => {
 		return (
-			<ThemeProvider theme={chipTheme}>
-				{value !== null && (
+			props.label != null &&
+			props.label !== '' && (
+				<ComponentProvider
+					name="MuiChip"
+					default={monsteraChipTheme}
+					custom={theme}
+				>
 					<MuiChip
-						label={value}
-						variant="outlined"
+						{...props}
 						onDelete={
 							onDelete !== null
-								? () => onDelete(value)
+								? () => onDelete(props.label)
 								: undefined
 						}
 					/>
-				)}
-			</ThemeProvider>
+				</ComponentProvider>
+			)
 		);
 	}
 );

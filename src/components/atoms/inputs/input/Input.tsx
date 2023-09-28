@@ -5,9 +5,6 @@ import { TInput } from './Input.types';
 
 export const Input = React.memo(
 	React.forwardRef((props: TInput, ref?: React.Ref<HTMLInputElement>) => {
-		useEffect(() => {
-			console.log('rerendered');
-		}, []);
 		return <TextField {...props} fullWidth={true} inputRef={ref} />;
 	})
 );

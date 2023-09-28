@@ -1,11 +1,4 @@
-import React, {
-	useCallback,
-	useRef,
-	useState,
-	useReducer,
-	MouseEvent,
-	useEffect,
-} from 'react';
+import React, { useCallback, useRef, useReducer, useEffect } from 'react';
 
 import { Chip } from '../../chip';
 import { Input } from '../input';
@@ -39,7 +32,6 @@ export const Recipients: React.FC<TRecipients> = ({
 	value: defaultValue = null,
 }) => {
 	const [value, reduceValue] = useReducer(valueReducer, defaultValue);
-	// const [value, setValue] = useState(defaultValue);
 	const inputRef = useRef<HTMLInputElement | null>(null);
 
 	useEffect(() => {
@@ -75,6 +67,7 @@ export const Recipients: React.FC<TRecipients> = ({
 		<StyledRecipients>
 			<Input
 				type="email"
+				name={name}
 				onChange={onChange}
 				disabled={value != null && value?.length >= maxItems}
 				placeholder={
@@ -87,7 +80,7 @@ export const Recipients: React.FC<TRecipients> = ({
 				<div className="recipients__chips-container">
 					{value.map((chip, index) => (
 						<span key={chip}>
-							<Template value={chip} onDelete={onDelete} />
+							<Template label={chip} onDelete={onDelete} />
 						</span>
 					))}
 				</div>
