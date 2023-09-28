@@ -32,7 +32,7 @@ const defaultThemes = {
 	dark: themeDark,
 };
 
-export const defaultTheme: ITheme = defaultThemes[defaultThemeKey];
+const defaultTheme: ITheme = defaultThemes[defaultThemeKey];
 
 // Provider
 
@@ -47,7 +47,7 @@ export const ThemeProvider: any = ({ children, ...props }: TThemeProvider) => {
 	const [brandedTheme, setBrandedTheme] = useState<TBrandedTheme | null>(
 		_.merge({}, defaultBrand, props.customBrand, defaultTheme)
 	);
-	// to check if defaultTheme is needed in the following merge
+
 	const [components, setComponents] = useState<TComponents>(
 		_.merge({}, defaultComponents, props.customComponents)
 	);
