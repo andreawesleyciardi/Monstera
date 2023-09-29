@@ -1,4 +1,5 @@
 import { TThemeContent, TThemeWidget } from './../../components';
+import { TThemedValue } from '../../utilities';
 
 // Brand
 
@@ -62,28 +63,56 @@ export type TThemeName = 'light' | 'dark';
 
 export type TThemeColors = {
 	dark: string;
-	fontColor: string;
 	inverseFontColor: string;
 	light: string;
-};
-
-export type TThemeComponents = {
-	body?: {
-		backgroundColor?: string;
-		fontFamily?: string;
-		fontSize?: string;
-	};
-	content?: TThemeContent;
-	widget?: TThemeWidget;
 };
 
 export interface ITheme {
 	name: TThemeName;
 	colors: TThemeColors;
-	components: TThemeComponents;
 }
 
-// Branded Theme
+// Components
+
+export type TMonsteraComponents = {
+	body?: {
+		backgroundColor?: TThemedValue;
+		fontColor?: TThemedValue;
+		fontFamily?: string;
+		fontSize?: string;
+	};
+	content?: TThemeContent;
+	widget?: TThemeWidget;
+	// input?: TObject;
+	[key: string]: any;
+};
+
+export type TThemeComponentArgs = {
+	defaultProps?: {
+		[key: string]: string;
+	};
+	styleOverrides?: {
+		[key: string]:
+			| {
+					[key: string]: string;
+			  }
+			| ((props: { [key: string]: any }) => void);
+	};
+};
+
+export type TThemeComponent = {
+	[key: string]: TThemeComponentArgs;
+};
+
+export type TThemeComponents = {
+	components: {
+		[key: string]: TThemeComponentArgs;
+	};
+};
+
+export type TComponents = TMuiComponents & TMonsteraComponents;
+
+// Branded Theme with Components
 
 export type IBrandedThemeColors = TBrandColorsGroups & TThemeColors;
 
@@ -92,10 +121,16 @@ export type TBrandedTheme = ITheme & IBrand;
 export type TThemeContext = {
 	setBrand: (selectedBrand: IBrand) => void;
 	setTheme: (themeKey: TThemeName) => void;
+	setComponents: (components: TComponents) => void;
 	brandedTheme: TBrandedTheme | null;
 };
 
 export type TThemeProvider = {
 	children: React.ReactNode;
 	customBrand?: IBrand;
+	customComponents?: TComponents;
+};
+
+export type TStyledThemeProvider = TBrandedTheme & {
+	components: TMuiComponents;
 };

@@ -1,24 +1,38 @@
 import { DefaultTheme } from 'styled-components';
 import { TVariants } from './Types';
 
-import { ITheme, TBrandedTheme } from '../providers/theme/Theme.types';
+import {
+	ITheme,
+	TBrandedTheme,
+	TMonsteraComponents,
+	TStyledThemeProvider,
+} from '../providers/theme/Theme.types';
 
 export const getStyledColor = (
-	theme: ITheme | DefaultTheme,
-	variant: TVariants
+	theme: TStyledThemeProvider | DefaultTheme,
+	variant: TVariants,
+	reverse?: boolean
 ) => {
 	if (['light', 'dark'].includes(variant) == true) {
-		if (theme.name != variant) {
-			return theme.name == 'dark'
-				? theme.colors.fontColor
-				: theme.colors.inverseFontColor;
+		if (variant === theme.name) {
+			return theme?.components?.body?.fontColor?.['light'];
 		} else {
-			return theme.name == 'dark'
-				? theme.colors.inverseFontColor
-				: theme.colors.fontColor;
+			return theme?.components?.body?.fontColor?.[
+				theme.name === 'light'
+					? 'dark'
+					: variant == 'light'
+					? 'dark'
+					: 'light'
+			];
 		}
 	}
-	return theme.colors.inverseFontColor;
+	return theme?.components?.body?.fontColor?.[
+		reverse === true
+			? theme.name === 'light'
+				? 'dark'
+				: 'light'
+			: theme.name
+	];
 };
 
 export const getStyledBackgroundColor = (

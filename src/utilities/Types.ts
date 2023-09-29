@@ -71,3 +71,7 @@ export enum EVariants {
 	success = 'success',
 	warning = 'warning',
 }
+
+export type TThemedValue =
+	| { light: string | number; dark: string | number }
+	| string;

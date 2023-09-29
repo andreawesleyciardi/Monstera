@@ -3,13 +3,10 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 import { arrayVariants } from '../../utilities/Services';
-import {
-	defaultBrand,
-	paletteToVariants,
-	ThemeProvider,
-	useTheme,
-} from './Theme';
+import { ThemeProvider, useTheme } from './Theme';
+import { defaultBrand, paletteToVariants } from './Theme.defaults';
 import { IBrand, TBrandPalette, TThemeName } from './Theme.types';
+
 import { Alert } from '../../components/atoms/alert/Alert';
 import { Button } from '../../components/atoms/buttons/button/Button';
 import { TVariants } from '../../utilities/Types';
@@ -64,6 +61,7 @@ const Template = ({ children, ...args }) => {
 			logosRootUrl: 'https://dev-gigjo.oseven.io/branding/gigdrive/',
 			safeMiles: { name: null },
 		},
+		isBranded: true,
 	};
 
 	return (

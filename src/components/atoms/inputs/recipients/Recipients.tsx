@@ -1,13 +1,6 @@
-import React, {
-	useCallback,
-	useRef,
-	useState,
-	useReducer,
-	MouseEvent,
-	useEffect,
-} from 'react';
+import React, { useCallback, useRef, useReducer, useEffect } from 'react';
 
-import { Chips } from '../../chips';
+import { Chip } from '../../chip';
 import { Input } from '../input';
 import { isValidEmail } from '../../../../utilities';
 
@@ -16,12 +9,14 @@ import { TRecipients } from './Recipients.types';
 
 function valueReducer(
 	state: string[] | null,
-	action: { type: string; value: string }
-) {
+	action: { type: string; payload: string }
+): string[] | null {
 	if (action.type === 'add') {
-		return [].concat((state != null ? state : []) as [], [action.value]);
+		return ([] as string[]).concat((state != null ? state : []) as [], [
+			action.payload,
+		]);
 	} else {
-		return state?.filter((item) => item !== action.value);
+		return state?.filter((item) => item !== action.payload) ?? null;
 	}
 }
 
@@ -33,11 +28,10 @@ export const Recipients: React.FC<TRecipients> = ({
 	onChange: onValueChange,
 	placeholder = null,
 	separator = ';',
-	template: Template = Chips,
+	template: Template = Chip,
 	value: defaultValue = null,
 }) => {
 	const [value, reduceValue] = useReducer(valueReducer, defaultValue);
-	// const [value, setValue] = useState(defaultValue);
 	const inputRef = useRef<HTMLInputElement | null>(null);
 
 	useEffect(() => {
@@ -55,7 +49,7 @@ export const Recipients: React.FC<TRecipients> = ({
 					arr[0].length > 0 &&
 					isValidEmail(arr[0])
 				) {
-					reduceValue({ type: 'add', value: arr[0] });
+					reduceValue({ type: 'add', payload: arr[0] });
 					if (inputRef?.current?.['value'] != null) {
 						inputRef.current['value'] = '';
 					}
@@ -65,26 +59,32 @@ export const Recipients: React.FC<TRecipients> = ({
 		[]
 	);
 
-	const onDelete = useCallback(
-		(event: MouseEvent<HTMLButtonElement>, chip: string) => {
-			reduceValue({ type: 'remove', value: chip });
-		},
-		[]
-	);
+	const onDelete = useCallback((chip: string) => {
+		reduceValue({ type: 'remove', payload: chip });
+	}, []);
 
 	return (
 		<StyledRecipients>
 			<Input
 				type="email"
+				name={name}
 				onChange={onChange}
 				disabled={value != null && value?.length >= maxItems}
 				placeholder={
 					placeholder ??
-					`add upt to ${maxItems} emails separated by "${separator}"`
+					`add up to ${maxItems} emails separated by "${separator}"`
 				}
 				ref={inputRef}
 			/>
-			<Template value={value} onDelete={onDelete} />
+			{value != null && value.length > 0 && (
+				<div className="recipients__chips-container">
+					{value.map((chip, index) => (
+						<span key={chip}>
+							<Template label={chip} onDelete={onDelete} />
+						</span>
+					))}
+				</div>
+			)}
 		</StyledRecipients>
 	);
 };
