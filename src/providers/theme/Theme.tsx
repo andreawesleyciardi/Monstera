@@ -1,166 +1,127 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import { createTheme, Theme } from '@mui/material/styles';
 import _ from 'lodash';
 
 import {
-	IBrand,
-	ITheme,
-	TBrandedTheme,
-	TComponents,
-	TMonsteraComponents,
-	TMuiComponents,
-	TStyledThemeProvider,
+	TBrand,
+	TBrandColors,
+	TBrandDefinition,
+	TColor,
+	TColorDefinition,
+	TMuiCreateThemeProps,
+	TPalette,
+	TPaletteDefinition,
+	TTheme,
 	TThemeContext,
-	TThemeName,
-	TThemeProvider,
+	TThemeProviderProps,
 } from './Theme.types';
 import {
 	defaultBrand,
+	defaultPalette,
 	defaultComponents,
-	paletteToVariants,
-	themeDark,
-	themeLight,
 } from './Theme.defaults';
-import { GlobalStyles } from './Theme.styles';
 
-// Consts
-
-const defaultThemeKey = 'light';
-
-const defaultThemes = {
-	light: themeLight,
-	dark: themeDark,
-};
-
-const defaultTheme: ITheme = defaultThemes[defaultThemeKey];
-
-// Provider
+// Context
 
 const ThemeContext = React.createContext<TThemeContext | null>(null);
 
-export const ThemeProvider: any = ({ children, ...props }: TThemeProvider) => {
-	const [brand, setBrand] = useState<IBrand>(
-		_.merge({}, defaultBrand, props.customBrand)
-	);
-	const [theme, setTheme] = useState<ITheme>(defaultTheme);
+// const theme = createTheme({
+// 	palette: {
+// 		primary: {
+// 			main: purple[500],
+// 		},
+// 		secondary: {
+// 			main: green[500],
+// 		},
+// 	},
+// });
 
-	const [brandedTheme, setBrandedTheme] = useState<TBrandedTheme | null>(
-		_.merge({}, defaultBrand, props.customBrand, defaultTheme)
-	);
+const createMuiTheme = (
+	theme: TMuiCreateThemeProps,
+	parentTheme?: Theme
+): Theme => {
+	return parentTheme != null && Object.keys(parentTheme).length > 0
+		? createTheme(parentTheme, theme)
+		: createTheme(theme);
+};
 
-	const [components, setComponents] = useState<TComponents>(
-		_.merge({}, defaultComponents, props.customComponents)
-	);
+const parseColors = function (
+	colors: { [key: string]: TColorDefinition } | undefined
+): { [key: string]: TColor } {
+	if (colors == undefined) {
+		return {};
+	}
+	let parsedColors: { [key: string]: TColor } = {};
+	for (const key in colors) {
+		parsedColors[key] = (
+			typeof colors[key] === 'string'
+				? { main: colors[key] }
+				: colors[key]
+		) as TColor;
+	}
+	return parsedColors;
+};
 
-	const [monsteraComponents, setMonsteraComponents] =
-		useState<TMonsteraComponents>({});
-	const [muiComponents, setMuiComponents] = useState<TMuiComponents>({});
-
-	const parseComponents = (components: TComponents) => {
-		let monstera: TMonsteraComponents = {};
-		let mui: TMuiComponents = {};
-
-		Object.keys(components).forEach((key: string, index: number, array) => {
-			if ('|body|content|widget|'.indexOf(`|${key}|`) > -1) {
-				monstera[key] = components[key] as TMonsteraComponents;
-			} else {
-				mui[key] = components[key] as TMuiComponents;
-			}
-		});
-
-		return {
-			monstera: monstera,
-			mui: mui,
-		};
-	};
-
-	useEffect(() => {
-		if (components != null) {
-			let { monstera, mui } = parseComponents(components);
-			if (Object.keys(monstera).length > 0) {
-				setMonsteraComponents(
-					_.merge({}, monsteraComponents, monstera)
-				);
-			}
-			if (Object.keys(mui).length > 0) {
-				setMuiComponents(_.merge({}, muiComponents, mui));
-			}
-		}
-	}, [components]);
-
-	useLayoutEffect(() => {
-		setBrandedTheme(_.merge({}, brand, theme));
-	}, [brand, theme]);
-
-	// TO CHECK IF KEEP useLayoutEffect or useEffect
-	// useLayoutEffect(() => {
-	// const currentBrand = JSON.parse(localStorage.getItem('current-brand'));
-	// if (currentBrand) {
-	// 	setBrand(currentBrand);
-	// }
-	// const currentTheme = JSON.parse(localStorage.getItem('current-theme'));
-	// if (currentTheme) {
-	// 	setTheme(currentTheme);
-	// }
-	// }, []);
-
-	// Handlerer
-
-	const handleSetTheme = (themeKey: TThemeName) => {
-		const selectedTheme: ITheme = _.merge({}, defaultThemes[themeKey]);
-		setTheme(selectedTheme);
-		localStorage.setItem('current-theme', JSON.stringify(selectedTheme));
-	};
-
-	const handleSetBrand = (selectedBrand: IBrand) => {
-		setBrand(
-			_.merge({}, selectedBrand, {
-				colors: {
-					variants: paletteToVariants(selectedBrand.colors.palette),
-				},
-			})
-		);
-		localStorage.setItem('current-brand', JSON.stringify(selectedBrand));
-	};
-
-	const handleSetComponents = (components: TComponents) => {
-		if (components != null) {
-			setComponents(components);
-		}
-	};
-
-	return (
-		<ThemeContext.Provider
-			value={{
-				setBrand: handleSetBrand,
-				setTheme: handleSetTheme,
-				setComponents: handleSetComponents,
-				brandedTheme: brandedTheme,
-			}}
-		>
-			{brandedTheme && (
-				<StyledThemeProvider
-					theme={
-						{
-							brand: brandedTheme.brand,
-							colors: brandedTheme.colors,
-							components: monsteraComponents,
-							isBranded: brandedTheme.isBranded,
-							name: brandedTheme.name,
-						} as TStyledThemeProvider
-					}
-				>
-					<GlobalStyles />
-					{children}
-				</StyledThemeProvider>
-			)}
-		</ThemeContext.Provider>
+const parseBrand = function ({ colors, ...brand }: TBrandDefinition): TBrand {
+	let parsedColors = parseColors(colors);
+	return _.merge(
+		{},
+		Object.keys(parsedColors).length > 0 ? { palette: parsedColors } : {},
+		brand != null && Object.keys(brand).length > 0 ? { brand: brand } : {}
 	);
 };
 
-// Hook
+const createBrandedTheme = function (
+	brand: TBrandDefinition,
+	parentTheme?: Theme
+): Theme {
+	const brandedTheme: TBrand = parseBrand(_.merge({}, defaultBrand, brand));
+	return createMuiTheme(brandedTheme, parentTheme);
+};
 
-export const useTheme = () => {
-	let themeContext = useContext(ThemeContext);
-	return themeContext;
+const parsePalette = function (palette: TPaletteDefinition) {
+	// TO DO
+	return {};
+};
+
+const createPaletteTheme = function (
+	palette: TPaletteDefinition,
+	parentTheme?: Theme
+): Theme {
+	const paletteTheme: TPalette = parsePalette(
+		_.merge({}, defaultPalette, palette)
+	);
+	return createMuiTheme({ palette: paletteTheme }, parentTheme);
+};
+
+// Provider
+
+export const ThemeProvider: any = ({
+	children,
+	brand: userBrand,
+	palette: userPalette,
+	components: userComponents,
+	...props
+}: TThemeProviderProps) => {
+	const [brand, setBrand] = useState(null);
+	const [palette, setPalette] = useState(null);
+	const [components, setComponents] = useState(null);
+
+	// Read props
+	useEffect(() => {
+		const brandedTheme: Theme = createBrandedTheme(userBrand);
+		const paletteTheme: Theme = createPaletteTheme(
+			userPalette,
+			brandedTheme
+		);
+	}, []);
+
+	// if brand != null
+	// Parse brand
+	// color --> brand palette
+	// with brand palette we use Theme composition so to customize the palette
+
+	// logo, logosRootUrl, [any]: any --> Create muiTheme custom variables https://mui.com/material-ui/customization/theming/#custom-variables
+
+	return children;
 };

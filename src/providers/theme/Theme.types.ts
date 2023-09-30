@@ -1,136 +1,82 @@
-import { TThemeContent, TThemeWidget } from './../../components';
-import { TThemedValue } from '../../utilities';
+export type TThemeContext = {};
 
-// Brand
+export type TColorsVariables = {
+	primary?: TColorDefinition;
+	secondary?: TColorDefinition;
+	error?: TColorDefinition;
+	warning?: TColorDefinition;
+	info?: TColorDefinition;
+	success?: TColorDefinition;
+} & {
+	[key: string]: TColorDefinition;
+};
 
-export type TBrandPalette = {
-	alert: string;
-	background: string;
-	highlight: string;
-	low: string;
+export type TColor = {
 	main: string;
-	medium: string;
-	secondaryOne: string;
-	secondaryTwo: string;
-	success: string;
-	support: string;
-	tabBarCover: string;
-	tabBarCoverTwo: string;
-	widgetsNegTexts: string;
+	light?: string;
+	dark?: string;
+	contrastText?: string;
 };
 
-export type TBrandVariants = {
-	danger: string;
-	info: string;
-	low: string;
-	primary: string;
-	secondary: string;
-	success: string;
-	warning: string;
+export type TColorDefinition = string | TColor | undefined;
+
+// ----------------------------------------------------------------
+
+export type TPaletteDefinition = { contrastThreshold?: number } & {
+	[key: string]: TColorDefinition;
 };
+
+export type TPalette = { contrastThreshold?: number } & {
+	[key: string]: TColor;
+};
+// export type TPalette = {
+// 	palette: { contrastThreshold?: number } & {
+// 		[key: string]: TColor;
+// 	};
+// };
+
+// ----------------------------------------------------------------
 
 export type TBrandColors = {
-	bars: string;
-	interactive: string;
+	primary?: TColorDefinition;
+	secondary?: TColorDefinition;
+} & {
+	[key: string]: TColorDefinition;
 };
 
-type TBrandColorsGroups = {
-	palette: TBrandPalette;
-	variants: TBrandVariants;
-};
-
-type TBrandSafemiles = {
-	name: string;
+export type TBrandDefinition = {
+	colors?: TBrandColors;
+	logo?: string | { [key: string]: string };
+	logosRootUrl?: string;
+	[key: string]: any;
 };
 
 export type TBrand = {
-	colors: TBrandColors;
-	logo?: string | { [key: string]: string };
-	logosRootUrl?: string;
-	safeMiles?: TBrandSafemiles;
-	[key: string]: any;
+	palette?: TPalette;
+	brand?: { [key: string]: string };
 };
 
-export interface IBrand {
-	colors: TBrandColorsGroups;
-	brand: TBrand;
-	isBranded: boolean;
-}
+// ----------------------------------------------------------------
 
-// Theme
+export type TComponentsDefinition = {};
 
-export type TThemeName = 'light' | 'dark';
+// ----------------------------------------------------------------
 
-export type TThemeColors = {
-	dark: string;
-	inverseFontColor: string;
-	light: string;
-};
-
-export interface ITheme {
-	name: TThemeName;
-	colors: TThemeColors;
-}
-
-// Components
-
-export type TMonsteraComponents = {
-	body?: {
-		backgroundColor?: TThemedValue;
-		fontColor?: TThemedValue;
-		fontFamily?: string;
-		fontSize?: string;
-	};
-	content?: TThemeContent;
-	widget?: TThemeWidget;
-	// input?: TObject;
-	[key: string]: any;
-};
-
-export type TThemeComponentArgs = {
-	defaultProps?: {
-		[key: string]: string;
-	};
-	styleOverrides?: {
-		[key: string]:
-			| {
-					[key: string]: string;
-			  }
-			| ((props: { [key: string]: any }) => void);
-	};
-};
-
-export type TThemeComponent = {
-	[key: string]: TThemeComponentArgs;
-};
-
-export type TThemeComponents = {
-	components: {
-		[key: string]: TThemeComponentArgs;
-	};
-};
-
-export type TComponents = TMuiComponents & TMonsteraComponents;
-
-// Branded Theme with Components
-
-export type IBrandedThemeColors = TBrandColorsGroups & TThemeColors;
-
-export type TBrandedTheme = ITheme & IBrand;
-
-export type TThemeContext = {
-	setBrand: (selectedBrand: IBrand) => void;
-	setTheme: (themeKey: TThemeName) => void;
-	setComponents: (components: TComponents) => void;
-	brandedTheme: TBrandedTheme | null;
-};
-
-export type TThemeProvider = {
+export type TThemeProviderProps = {
 	children: React.ReactNode;
-	customBrand?: IBrand;
-	customComponents?: TComponents;
+	brand: TBrandDefinition;
+	palette: TPaletteDefinition;
+	components: any;
 };
 
-export type TStyledThemeProvider = TBrandedTheme & {
-	components: TMuiComponents;
+export type TMuiCreateThemeProps = {
+	brand?: { [key: string]: string | number };
+	palette?: TPalette;
+	components?: any;
+};
+
+export type TTheme = {
+	palette?: TPalette;
+	components?: any;
+	[key: string]: any;
 };
