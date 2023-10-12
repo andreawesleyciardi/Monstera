@@ -10,7 +10,7 @@ import {
 	TContentBody,
 	TContentFooter,
 } from './Content.types';
-import { ThemeProvider } from '../../../providers/theme/Theme';
+import { ThemeProvider } from '../../../providers/themeOLD/Theme';
 
 type TContentStory = TContent & TContentHeader & TContentBody & TContentFooter;
 const ContentStory = (props: TContentStory) => {

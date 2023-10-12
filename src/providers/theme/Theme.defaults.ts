@@ -1,3 +1,5 @@
+import { ChipTheme } from './../../components';
+
 import {
 	TBrandDefinition,
 	TColorsVariables,
@@ -5,7 +7,7 @@ import {
 	TPaletteDefinition,
 } from './Theme.types';
 
-export const defaultPalette: TColorsVariables = {
+export const defaultPalette: TPaletteDefinition = {
 	primary: { main: '#46BEDC', contrastText: '#FFFFFF' },
 	secondary: { main: '#A5A9AC', contrastText: '#FFFFFF' },
 	error: { main: '#C8001E', contrastText: '#FFFFFF' },
@@ -15,7 +17,7 @@ export const defaultPalette: TColorsVariables = {
 };
 
 export const defaultBrand: TBrandDefinition = {
-	colors: {
+	palette: {
 		primary: defaultPalette.primary,
 		secondary: defaultPalette.secondary,
 	},
@@ -23,8 +25,10 @@ export const defaultBrand: TBrandDefinition = {
 	logosRootUrl: '',
 };
 
-export const defaultComponents: TComponentsDefinition = {};
+export const defaultComponents: TComponentsDefinition = {
+	...ChipTheme,
+};
 
-const componentsMap = {
+export const componentsMap: { [key: string]: string } = {
 	Chip: 'MuiChip',
 };

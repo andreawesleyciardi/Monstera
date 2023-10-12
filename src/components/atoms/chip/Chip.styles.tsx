@@ -1,13 +1,15 @@
-import { TMuiTheme } from '../../../services';
+import { TComponentsDefinition } from '../../../providers';
 
-export const monsteraChipTheme: TMuiTheme = {
-	defaultProps: {
-		size: 'small',
-		variant: 'outlined',
-	},
-	styleOverrides: {
-		root: {
-			borderRadius: '5px',
+export const ChipTheme: TComponentsDefinition = {
+	Chip: {
+		defaultProps: {
+			size: 'small',
+			variant: 'outlined',
+		},
+		styleOverrides: {
+			root: {
+				borderRadius: '5px',
+			},
 		},
 	},
 };

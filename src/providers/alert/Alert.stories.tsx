@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { AlertProvider, useAlert } from './Alert';
-import { ThemeProvider } from '../theme/Theme';
+import { ThemeProvider } from '../themeOLD/Theme';
 import { Button } from '../../components/atoms/buttons/button/Button';
 import { arrayVariants } from '../../utilities/Services';
 import { EPositions, TVariants } from '../../utilities/Types';

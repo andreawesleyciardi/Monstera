@@ -78,11 +78,17 @@ export const Recipients: React.FC<TRecipients> = ({
 			/>
 			{value != null && value.length > 0 && (
 				<div className="recipients__chips-container">
+					{/* <ListItem key={data.key}> */}
 					{value.map((chip, index) => (
 						<span key={chip}>
-							<Template label={chip} onDelete={onDelete} />
+							<Template
+								label={chip}
+								color="primary"
+								onDelete={onDelete}
+							/>
 						</span>
 					))}
+					{/* </ListItem> */}
 				</div>
 			)}
 		</StyledRecipients>

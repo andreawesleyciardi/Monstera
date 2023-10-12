@@ -37,7 +37,7 @@ export type TPalette = { contrastThreshold?: number } & {
 
 // ----------------------------------------------------------------
 
-export type TBrandColors = {
+export type TBrandPalette = {
 	primary?: TColorDefinition;
 	secondary?: TColorDefinition;
 } & {
@@ -45,7 +45,7 @@ export type TBrandColors = {
 };
 
 export type TBrandDefinition = {
-	colors?: TBrandColors;
+	palette?: TBrandPalette;
 	logo?: string | { [key: string]: string };
 	logosRootUrl?: string;
 	[key: string]: any;
@@ -58,25 +58,49 @@ export type TBrand = {
 
 // ----------------------------------------------------------------
 
-export type TComponentsDefinition = {};
+export type TComponents = {
+	[key: string]: {
+		defaultProps: {
+			[key: string]: string;
+		};
+		styleOverrides: {
+			[key: string]: {
+				[key: string]: string;
+			};
+		};
+	};
+};
+
+export type TComponentsDefinition = {
+	[key: string]: {
+		defaultProps: {
+			[key: string]: string;
+		};
+		styleOverrides: {
+			[key: string]: {
+				[key: string]: string;
+			};
+		};
+	};
+};
 
 // ----------------------------------------------------------------
 
 export type TThemeProviderProps = {
 	children: React.ReactNode;
-	brand: TBrandDefinition;
-	palette: TPaletteDefinition;
-	components: any;
+	brand?: TBrandDefinition;
+	palette?: TPaletteDefinition;
+	components?: TComponentsDefinition;
 };
 
-export type TMuiCreateThemeProps = {
-	brand?: { [key: string]: string | number };
-	palette?: TPalette;
-	components?: any;
-};
+// export type TMuiCreateThemeProps = {
+// 	brand?: { [key: string]: string | number };
+// 	palette?: TPalette;
+// 	components?: any;
+// };
 
-export type TTheme = {
-	palette?: TPalette;
-	components?: any;
-	[key: string]: any;
-};
+// export type TTheme = {
+// 	palette?: TPalette;
+// 	components?: any;
+// 	[key: string]: any;
+// };

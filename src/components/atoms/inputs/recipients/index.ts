@@ -1,2 +1,2 @@
-export * from './Email';
-export * from './Email.types';
+export * from './Recipients';
+export * from './Recipients.types';

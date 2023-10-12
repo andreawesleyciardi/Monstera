@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { DialogProvider, useDialog } from './Dialog';
 import { TOpenDialogProps } from './Dialog.types';
-import { ThemeProvider } from '../theme/Theme';
+import { ThemeProvider } from '../themeOLD/Theme';
 import {
 	ContentBody,
 	ContentFooter,
