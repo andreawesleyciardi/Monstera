@@ -6,12 +6,14 @@ import {
 } from '@mui/material/styles';
 
 export type TMuiTheme = {
-	defaultProps?: {
-		[key: string]: string;
-	};
-	styleOverrides?: {
-		[key: string]: {
+	[key: string]: {
+		defaultProps?: {
 			[key: string]: string;
+		};
+		styleOverrides?: {
+			[key: string]: {
+				[key: string]: string;
+			};
 		};
 	};
 };

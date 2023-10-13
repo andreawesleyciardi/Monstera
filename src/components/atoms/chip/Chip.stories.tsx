@@ -5,21 +5,7 @@ import { ThemeProvider } from '../../../providers/theme/Theme';
 
 const Template = (args) => {
 	console.log(args);
-	return (
-		<>
-			<ChipComponent label="Teeeeest" {...args} />
-			<ChipComponent
-				label="Teeeeest"
-				{...args}
-				theme={{
-					defaultProps: {
-						color: 'primary',
-						variant: 'filled',
-					},
-				}}
-			/>
-		</>
-	);
+	return <ChipComponent label="Teeeeest" {...args} />;
 };
 
 const meta: Meta<typeof ChipComponent> = {

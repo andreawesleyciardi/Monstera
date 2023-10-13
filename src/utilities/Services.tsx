@@ -6,7 +6,7 @@ import {
 	TBrandedTheme,
 	TMonsteraComponents,
 	TStyledThemeProvider,
-} from '../providers/theme/Theme.types';
+} from '../providers/themeOLD/Theme.types';
 
 export const getStyledColor = (
 	theme: TStyledThemeProvider | DefaultTheme,

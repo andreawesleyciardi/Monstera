@@ -1,164 +1,95 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+	createTheme,
+	// GlobalStyles as MuiGlobalStyles,
+	Theme as MuiTheme,
+	ThemeOptions as MuiThemeOptions,
+	ThemeProvider as MuiThemeProvider,
+} from '@mui/material/styles';
 import _ from 'lodash';
 
 import {
-	IBrand,
-	ITheme,
-	TBrandedTheme,
-	TComponents,
-	TMonsteraComponents,
-	TMuiComponents,
-	TStyledThemeProvider,
+	TComponentsDefinition,
 	TThemeContext,
-	TThemeName,
-	TThemeProvider,
+	TThemeProviderProps,
 } from './Theme.types';
 import {
 	defaultBrand,
+	defaultPalette,
 	defaultComponents,
-	paletteToVariants,
-	themeDark,
-	themeLight,
 } from './Theme.defaults';
-import { GlobalStyles } from './Theme.styles';
+import {
+	createBrandedTheme,
+	createPaletteTheme,
+	createComponentsTheme,
+} from './Theme.utilities';
 
-// Consts
-
-const defaultThemeKey = 'light';
-
-const defaultThemes = {
-	light: themeLight,
-	dark: themeDark,
-};
-
-const defaultTheme: ITheme = defaultThemes[defaultThemeKey];
-
-// Provider
+// Context
 
 const ThemeContext = React.createContext<TThemeContext | null>(null);
 
-export const ThemeProvider: any = ({ children, ...props }: TThemeProvider) => {
-	const [brand, setBrand] = useState<IBrand>(
-		_.merge({}, defaultBrand, props.customBrand)
-	);
-	const [theme, setTheme] = useState<ITheme>(defaultTheme);
+// Provider
 
-	const [brandedTheme, setBrandedTheme] = useState<TBrandedTheme | null>(
-		_.merge({}, defaultBrand, props.customBrand, defaultTheme)
-	);
-
-	const [components, setComponents] = useState<TComponents>(
-		_.merge({}, defaultComponents, props.customComponents)
-	);
-
-	const [monsteraComponents, setMonsteraComponents] =
-		useState<TMonsteraComponents>({});
-	const [muiComponents, setMuiComponents] = useState<TMuiComponents>({});
-
-	const parseComponents = (components: TComponents) => {
-		let monstera: TMonsteraComponents = {};
-		let mui: TMuiComponents = {};
-
-		Object.keys(components).forEach((key: string, index: number, array) => {
-			if ('|body|content|widget|'.indexOf(`|${key}|`) > -1) {
-				monstera[key] = components[key] as TMonsteraComponents;
-			} else {
-				mui[key] = components[key] as TMuiComponents;
-			}
-		});
-
-		return {
-			monstera: monstera,
-			mui: mui,
-		};
-	};
+export const ThemeProvider: any = ({
+	children,
+	brand: customBrand = {},
+	palette: customPalette = {},
+	components: customComponents = {},
+	...props
+}: TThemeProviderProps) => {
+	const [theme, setTheme] = useState<MuiTheme | null>(null);
+	// const [brand, setBrand] = useState(null);
+	// const [palette, setPalette] = useState(null);
+	// const [components, setComponents] = useState(null);
 
 	useEffect(() => {
-		if (components != null) {
-			let { monstera, mui } = parseComponents(components);
-			if (Object.keys(monstera).length > 0) {
-				setMonsteraComponents(
-					_.merge({}, monsteraComponents, monstera)
-				);
-			}
-			if (Object.keys(mui).length > 0) {
-				setMuiComponents(_.merge({}, muiComponents, mui));
-			}
-		}
-	}, [components]);
-
-	useLayoutEffect(() => {
-		setBrandedTheme(_.merge({}, brand, theme));
-	}, [brand, theme]);
-
-	// TO CHECK IF KEEP useLayoutEffect or useEffect
-	// useLayoutEffect(() => {
-	// const currentBrand = JSON.parse(localStorage.getItem('current-brand'));
-	// if (currentBrand) {
-	// 	setBrand(currentBrand);
-	// }
-	// const currentTheme = JSON.parse(localStorage.getItem('current-theme'));
-	// if (currentTheme) {
-	// 	setTheme(currentTheme);
-	// }
-	// }, []);
-
-	// Handlerer
-
-	const handleSetTheme = (themeKey: TThemeName) => {
-		const selectedTheme: ITheme = _.merge({}, defaultThemes[themeKey]);
-		setTheme(selectedTheme);
-		localStorage.setItem('current-theme', JSON.stringify(selectedTheme));
-	};
-
-	const handleSetBrand = (selectedBrand: IBrand) => {
-		setBrand(
-			_.merge({}, selectedBrand, {
-				colors: {
-					variants: paletteToVariants(selectedBrand.colors.palette),
-				},
-			})
+		const paletteTheme: MuiThemeOptions = createPaletteTheme(
+			{ ...customPalette },
+			defaultPalette
 		);
-		localStorage.setItem('current-brand', JSON.stringify(selectedBrand));
+		let customTheme: MuiTheme = createTheme(paletteTheme);
+
+		const brandedTheme: MuiThemeOptions = createBrandedTheme(
+			{ ...customBrand },
+			defaultBrand
+		);
+		customTheme = createTheme(customTheme as MuiThemeOptions, brandedTheme);
+
+		const componentsTheme: MuiThemeOptions = createComponentsTheme(
+			{ ...customComponents },
+			defaultComponents
+		);
+		customTheme = createTheme(
+			customTheme as MuiThemeOptions,
+			componentsTheme
+		);
+
+		setTheme(customTheme);
+	}, []);
+
+	const handleSetComponents = (components: TComponentsDefinition) => {
+		const parsedComponents: MuiThemeOptions =
+			createComponentsTheme(components);
+		setTheme(createTheme(_.merge({}, theme, parsedComponents)));
 	};
 
-	const handleSetComponents = (components: TComponents) => {
-		if (components != null) {
-			setComponents(components);
-		}
-	};
+	// logo, logosRootUrl, [any]: any --> Create muiTheme custom variables https://mui.com/material-ui/customization/theming/#custom-variables
 
 	return (
-		<ThemeContext.Provider
-			value={{
-				setBrand: handleSetBrand,
-				setTheme: handleSetTheme,
-				setComponents: handleSetComponents,
-				brandedTheme: brandedTheme,
-			}}
-		>
-			{brandedTheme && (
-				<StyledThemeProvider
-					theme={
-						{
-							brand: brandedTheme.brand,
-							colors: brandedTheme.colors,
-							components: monsteraComponents,
-							isBranded: brandedTheme.isBranded,
-							name: brandedTheme.name,
-						} as TStyledThemeProvider
-					}
-				>
-					<GlobalStyles />
+		theme != null && (
+			<ThemeContext.Provider
+				value={{
+					setComponents: handleSetComponents,
+				}}
+			>
+				<MuiThemeProvider theme={theme}>
+					{/* <GlobalStyles styles={{ h1: { color: 'grey' } }} /> */}
 					{children}
-				</StyledThemeProvider>
-			)}
-		</ThemeContext.Provider>
+				</MuiThemeProvider>
+			</ThemeContext.Provider>
+		)
 	);
 };
-
-// Hook
 
 export const useTheme = () => {
 	let themeContext = useContext(ThemeContext);

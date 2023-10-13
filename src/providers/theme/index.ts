@@ -1,2 +1,2 @@
-export { ThemeProvider, useTheme } from './Theme';
-export { paletteToVariants } from './Theme.defaults';
+export * from './Theme';
+export * from './Theme.types';

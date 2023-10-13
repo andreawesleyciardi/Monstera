@@ -1,2 +1,5 @@
 - useMemo and useCallback:
     https://www.developerway.com/posts/how-to-use-memo-use-callback
+
+- How to organize Components in React
+    https://benjaminwfox.com/blog/tech/how-to-organize-components-in-react

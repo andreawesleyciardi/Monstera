@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Alert as AlertComponent } from './Alert';
-import { ThemeProvider } from '../../../providers/theme/Theme';
+import { ThemeProvider } from '../../../providers/themeOLD/Theme';
 
 const Template = (args) => {
 	return (
