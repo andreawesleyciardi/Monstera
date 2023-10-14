@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
+import _ from 'lodash';
 import {
 	createTheme,
 	// GlobalStyles as MuiGlobalStyles,
@@ -6,10 +13,13 @@ import {
 	ThemeOptions as MuiThemeOptions,
 	ThemeProvider as MuiThemeProvider,
 } from '@mui/material/styles';
-import _ from 'lodash';
+import { PaletteMode as MuiPaletteMode } from '@mui/material';
+import { ThemeContext as MuiThemeContext } from '@mui/styled-engine';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import {
-	TComponentsDefinition,
+	TTheme,
+	TModeDefinition,
 	TThemeContext,
 	TThemeProviderProps,
 } from './Theme.types';
@@ -22,6 +32,7 @@ import {
 	createBrandedTheme,
 	createPaletteTheme,
 	createComponentsTheme,
+	getCustomValue,
 } from './Theme.utilities';
 
 // Context
@@ -32,31 +43,57 @@ const ThemeContext = React.createContext<TThemeContext | null>(null);
 
 export const ThemeProvider: any = ({
 	children,
-	brand: customBrand = {},
 	palette: customPalette = {},
+	brand: customBrand = {},
 	components: customComponents = {},
-	...props
+	mode: customMode = 'light',
+	modeIsToggable = true,
+	darkPalette: customDarkPalette = {},
+	darkBrand: customDarkBrand = {},
+	darkComponents: customDarkComponents = {},
 }: TThemeProviderProps) => {
-	const [theme, setTheme] = useState<MuiTheme | null>(null);
-	// const [brand, setBrand] = useState(null);
-	// const [palette, setPalette] = useState(null);
-	// const [components, setComponents] = useState(null);
+	const getDefaultMode = (mode: TModeDefinition): MuiPaletteMode => {
+		if (mode == 'auto') {
+			return useMediaQuery('(prefers-color-scheme: dark)')
+				? 'dark'
+				: 'light';
+		}
+		return mode;
+	};
 
-	useEffect(() => {
+	const [mode, setMode] = useState<MuiPaletteMode>(
+		getDefaultMode(customMode)
+	);
+
+	const themeBuilder = (
+		mode: MuiPaletteMode,
+		modeIsToggable: boolean
+	): MuiTheme => {
 		const paletteTheme: MuiThemeOptions = createPaletteTheme(
-			{ ...customPalette },
-			defaultPalette
+			getCustomValue(
+				customPalette,
+				customDarkPalette,
+				mode,
+				modeIsToggable
+			),
+			defaultPalette,
+			mode
 		);
 		let customTheme: MuiTheme = createTheme(paletteTheme);
 
 		const brandedTheme: MuiThemeOptions = createBrandedTheme(
-			{ ...customBrand },
+			getCustomValue(customBrand, customDarkBrand, mode, modeIsToggable),
 			defaultBrand
 		);
 		customTheme = createTheme(customTheme as MuiThemeOptions, brandedTheme);
 
 		const componentsTheme: MuiThemeOptions = createComponentsTheme(
-			{ ...customComponents },
+			getCustomValue(
+				customComponents,
+				customDarkComponents,
+				mode,
+				modeIsToggable
+			),
 			defaultComponents
 		);
 		customTheme = createTheme(
@@ -64,24 +101,31 @@ export const ThemeProvider: any = ({
 			componentsTheme
 		);
 
-		setTheme(customTheme);
-	}, []);
-
-	const handleSetComponents = (components: TComponentsDefinition) => {
-		const parsedComponents: MuiThemeOptions =
-			createComponentsTheme(components);
-		setTheme(createTheme(_.merge({}, theme, parsedComponents)));
+		return customTheme;
 	};
+
+	const theme = useMemo(() => themeBuilder(mode, modeIsToggable), [mode]);
 
 	// logo, logosRootUrl, [any]: any --> Create muiTheme custom variables https://mui.com/material-ui/customization/theming/#custom-variables
 
+	const toggleMode = useCallback(
+		() => setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light')),
+		[]
+	);
+
+	const contextValue = _.merge(
+		{},
+		{ mode: mode, modeIsToggable: modeIsToggable },
+		modeIsToggable
+			? {
+					toggleMode: toggleMode,
+			  }
+			: {}
+	);
+
 	return (
 		theme != null && (
-			<ThemeContext.Provider
-				value={{
-					setComponents: handleSetComponents,
-				}}
-			>
+			<ThemeContext.Provider value={contextValue}>
 				<MuiThemeProvider theme={theme}>
 					{/* <GlobalStyles styles={{ h1: { color: 'grey' } }} /> */}
 					{children}
@@ -91,7 +135,8 @@ export const ThemeProvider: any = ({
 	);
 };
 
-export const useTheme = () => {
-	let themeContext = useContext(ThemeContext);
-	return themeContext;
+export const useTheme = (): TTheme => {
+	const themeContext = useContext(ThemeContext);
+	const muiThemeContext = useContext(MuiThemeContext);
+	return _.merge({}, themeContext, muiThemeContext) as TTheme;
 };

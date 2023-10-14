@@ -1,5 +1,7 @@
 import { ChipTheme } from './../../components';
 
+import logo from './../../assets/logo.png';
+
 import {
 	TBrandDefinition,
 	TColorsVariables,
@@ -21,7 +23,7 @@ export const defaultBrand: TBrandDefinition = {
 		primary: defaultPalette.primary,
 		secondary: defaultPalette.secondary,
 	},
-	logo: '',
+	logo: { main: logo },
 	logosRootUrl: '',
 };
 

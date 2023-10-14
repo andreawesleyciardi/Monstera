@@ -1,3 +1,6 @@
+import { Theme as MuiTheme } from '@mui/material/styles';
+import { PaletteMode as MuiPaletteMode } from '@mui/material';
+
 export type TThemeContext = {};
 
 export type TColorsVariables = {
@@ -29,11 +32,6 @@ export type TPaletteDefinition = { contrastThreshold?: number } & {
 export type TPalette = { contrastThreshold?: number } & {
 	[key: string]: TColor;
 };
-// export type TPalette = {
-// 	palette: { contrastThreshold?: number } & {
-// 		[key: string]: TColor;
-// 	};
-// };
 
 // ----------------------------------------------------------------
 
@@ -44,16 +42,19 @@ export type TBrandPalette = {
 	[key: string]: TColorDefinition;
 };
 
-export type TBrandDefinition = {
-	palette?: TBrandPalette;
+export type TBrandParams = {
 	logo?: string | { [key: string]: string };
 	logosRootUrl?: string;
 	[key: string]: any;
 };
 
+export type TBrandDefinition = {
+	palette?: TBrandPalette;
+} & TBrandParams;
+
 export type TBrand = {
 	palette?: TPalette;
-	brand?: { [key: string]: string };
+	brand?: TBrandParams;
 };
 
 // ----------------------------------------------------------------
@@ -86,11 +87,27 @@ export type TComponentsDefinition = {
 
 // ----------------------------------------------------------------
 
+export type TModeDefinition = MuiPaletteMode | 'auto';
+
+// ----------------------------------------------------------------
+
 export type TThemeProviderProps = {
 	children: React.ReactNode;
-	brand?: TBrandDefinition;
 	palette?: TPaletteDefinition;
+	brand?: TBrandDefinition;
 	components?: TComponentsDefinition;
+	mode?: TModeDefinition;
+	modeIsToggable?: boolean;
+	darkPalette?: TPaletteDefinition;
+	darkBrand?: TBrandDefinition;
+	darkComponents?: TComponentsDefinition;
+};
+
+export type TTheme = MuiTheme & {
+	mode?: MuiPaletteMode;
+	modeIsToggable?: boolean;
+	brand?: TBrandParams;
+	toggleMode?: () => void;
 };
 
 // export type TMuiCreateThemeProps = {

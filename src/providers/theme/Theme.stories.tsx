@@ -54,47 +54,76 @@ const Template = (args) => {
 		safeMiles: { name: null },
 	};
 
+	const Content = () => {
+		const theme = useTheme();
+		// debugger;
+		return (
+			<div style={{ backgroundColor: theme.palette.background.paper }}>
+				<p>Current mode {theme.palette.mode}</p>
+				<Chip
+					label="Teeeeest"
+					onDelete={(e) => {
+						alert('closing');
+					}}
+					color="primary"
+				/>
+				<br />
+				<img
+					src={`${theme?.brand?.logosRootUrl ?? ''}${
+						theme?.brand?.logo?.main ?? ''
+					}`}
+					style={{ maxHeight: '5rem' }}
+					alt="logo"
+				/>
+				{theme?.modeIsToggable === true && (
+					<button type="button" onClick={() => theme.toggleMode()}>
+						Toggle mode
+					</button>
+				)}
+			</div>
+		);
+	};
+
 	return (
-		<>
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}
+		>
+			<h3>Base</h3>
 			<ThemeProvider>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					<Chip
-						label="Teeeeest"
-						onDelete={(e) => {
-							alert('closing');
-						}}
-						color="primary"
-					/>
-				</div>
+				<Content />
 			</ThemeProvider>
 			<br />
 			<br />
+			<h3>Branded</h3>
 			<ThemeProvider brand={gigjoBrand}>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					<Chip
-						label="Teeeeest"
-						onDelete={(e) => {
-							alert('closing');
-						}}
-						color="primary"
-					/>
-				</div>
+				<Content />
 			</ThemeProvider>
-		</>
+			<br />
+			<br />
+			<h3>Dark mode</h3>
+			<ThemeProvider
+				mode="dark"
+				darkPalette={{ primary: { main: '#FF0000' } }}
+				darkBrand={{ palette: { primary: '#FF00FF' } }}
+			>
+				<Content />
+			</ThemeProvider>
+			<br />
+			<br />
+			<h3>Auto mode</h3>
+			<ThemeProvider
+				mode="auto"
+				darkPalette={{ primary: { main: '#FF0000' } }}
+				darkBrand={{ palette: { primary: '#FF0000' } }}
+			>
+				<Content />
+			</ThemeProvider>
+		</div>
 	);
 };
 
