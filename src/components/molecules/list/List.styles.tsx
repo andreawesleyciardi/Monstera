@@ -5,7 +5,7 @@ import {
 	getStyledColor,
 	getStyledBackgroundColor,
 } from '../../../utilities/Services';
-import { themeDark } from '../../../providers/themeOLD/Theme.styles';
+import { themeDark } from '../../../providers/theme/Theme.styles';
 
 export const StyledList = styled.div<IStyledList>`
 	width: 100%;
