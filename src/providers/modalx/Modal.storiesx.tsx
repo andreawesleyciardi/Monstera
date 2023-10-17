@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { ModalProvider, useModal } from './Modal';
 import { TOpenModalProps } from './Modal.types';
-import { ThemeProvider } from '../themeOLD/Theme';
+import { ThemeProvider } from '../theme/Theme';
 import {
 	ContentBody,
 	ContentFooter,
