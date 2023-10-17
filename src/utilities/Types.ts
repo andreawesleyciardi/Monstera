@@ -75,3 +75,8 @@ export enum EVariants {
 export type TThemedValue =
 	| { light: string | number; dark: string | number }
 	| string;
+
+export type TCoordinates = {
+	lat: number;
+	lng: number;
+};
