@@ -2,6 +2,7 @@ import React from 'react';
 import { TChip } from '../../chip';
 
 export type TRecipients = {
+	autoFocus: boolean;
 	className?: string;
 	id?: string;
 	maxItems?: number;
@@ -10,6 +11,7 @@ export type TRecipients = {
 	placeholder?: string;
 	separator?: string;
 	template?: React.FC<TChip>;
+	validation: (value: string) => boolean;
 	value?: string[] | null;
 };
 

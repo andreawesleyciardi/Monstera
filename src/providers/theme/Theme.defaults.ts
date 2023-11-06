@@ -1,4 +1,4 @@
-import { ChipTheme } from './../../components';
+import { ChipTheme, InputTheme } from './../../components';
 
 import logo from './../../assets/logo.png';
 
@@ -16,6 +16,7 @@ export const defaultPalette: TPaletteDefinition = {
 	warning: { main: '#FF7300', contrastText: '#FFFFFF' },
 	info: { main: '#7094AA', contrastText: '#FFFFFF' },
 	success: { main: '#6EA500', contrastText: '#FFFFFF' },
+	borders: { main: '#E5E6E7', contrastText: '#000000' },
 };
 
 export const defaultBrand: TBrandDefinition = {
@@ -29,6 +30,7 @@ export const defaultBrand: TBrandDefinition = {
 
 export const defaultComponents: TComponentsDefinition = {
 	...ChipTheme,
+	...InputTheme,
 };
 
 export const componentsMap: { [key: string]: string } = {

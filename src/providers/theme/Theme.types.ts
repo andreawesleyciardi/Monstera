@@ -62,10 +62,10 @@ export type TBrand = {
 export type TComponents = {
 	[key: string]: {
 		defaultProps: {
-			[key: string]: string;
+			[key: string]: string | boolean;
 		};
 		styleOverrides: {
-			[key: string]: {
+			[key: string]: (props: any) => void | {
 				[key: string]: string;
 			};
 		};
@@ -74,11 +74,11 @@ export type TComponents = {
 
 export type TComponentsDefinition = {
 	[key: string]: {
-		defaultProps: {
-			[key: string]: string;
+		defaultProps?: {
+			[key: string]: string | boolean;
 		};
-		styleOverrides: {
-			[key: string]: {
+		styleOverrides?: {
+			[key: string]: (props: any) => void | {
 				[key: string]: string;
 			};
 		};
