@@ -2,11 +2,19 @@ import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Chip as MuiChip, ChipProps } from '@mui/material';
 
-export const Chip = ({ onClick, onDelete, ...props }: ChipProps) => {
+import { TChip } from './Chip.types';
+
+export const Chip = ({ onClick, onDelete, ...props }: TChip) => {
 	return props.label != null && props.label !== '' ? (
 		<MuiChip
 			{...props}
-			onClick={onClick != null ? () => onClick(props.label) : undefined}
+			onClick={
+				onClick != null
+					? (e) => {
+							onClick(e, props.label);
+					  }
+					: undefined
+			}
 			onDelete={
 				onDelete != null ? () => onDelete(props.label) : undefined
 			}

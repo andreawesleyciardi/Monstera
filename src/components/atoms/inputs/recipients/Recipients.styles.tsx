@@ -14,5 +14,6 @@ export const StyledRecipients = styled.div<IStyledRecipients>`
 		align-items: flex-start;
 		justify-content: flex-start;
 		gap: 0.5rem;
+		flex-wrap: wrap;
 	}
 `;

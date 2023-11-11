@@ -5,7 +5,7 @@ import { Recipients as RecipientsComponent } from './Recipients';
 import { ThemeProvider } from '../../../../providers/theme/Theme';
 
 const Template = (args) => {
-	const [recipients, setRecipients] = useState(['gabriel@oseven.io']);
+	const [recipients, setRecipients] = useState(null);
 
 	const validation = useCallback((value) => {
 		return value == 'test@email.io' ? false : true;

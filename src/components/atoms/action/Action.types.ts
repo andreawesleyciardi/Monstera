@@ -5,9 +5,9 @@ export type TAction = {
 	className?: string;
 	event?: 'onClick' | 'onKeyDown' | 'all';
 	icon: string;
-	key: string;
 	label?: string;
 	labelInTooltip?: boolean;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
 	onKeyDown?: KeyboardEvent<HTMLButtonElement>;
+	type: string;
 };

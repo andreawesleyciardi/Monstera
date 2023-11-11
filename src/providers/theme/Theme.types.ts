@@ -78,9 +78,14 @@ export type TComponentsDefinition = {
 			[key: string]: string | boolean;
 		};
 		styleOverrides?: {
-			[key: string]: (props: any) => void | {
-				[key: string]: string;
-			};
+			[key: string]:
+				| {
+						[key: string]:
+							| { [key: string]: string | boolean }
+							| string
+							| boolean;
+				  }
+				| ((props: any) => void);
 		};
 	};
 };

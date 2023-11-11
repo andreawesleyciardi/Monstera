@@ -11,7 +11,7 @@ export type TRecipients = {
 	placeholder?: string;
 	separator?: string;
 	template?: React.FC<TChip>;
-	validation: (value: string) => boolean;
+	validation?: (value: string) => boolean;
 	value?: string[] | null;
 };
 

@@ -77,6 +77,6 @@ export type TThemedValue =
 	| string;
 
 export type TCoordinates = {
-	lat: number;
-	lng: number;
+	lat: number | null;
+	lng: number | null;
 };

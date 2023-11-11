@@ -1,4 +1,10 @@
-import React, { useCallback, useRef, useReducer, useEffect } from 'react';
+import React, {
+	useCallback,
+	useRef,
+	useReducer,
+	useEffect,
+	useState,
+} from 'react';
 
 import { Chip } from '../../chip';
 import { Input } from '../input';
@@ -25,7 +31,6 @@ function valueReducer(
 		const editedState: string[] = state?.filter(
 			(item) => item !== action.payload
 		) as string[];
-		debugger;
 		return editedState.length > 0 ? editedState : null;
 	}
 }
@@ -45,7 +50,7 @@ export const Recipients: React.FC<TRecipients> = ({
 }) => {
 	const [value, reduceValue] = useReducer(valueReducer, defaultValue);
 	const inputRef = useRef<HTMLInputElement | null>(null);
-	const selectedRef = useRef<number | null>(null);
+	const [selected, setSelect] = useState<number | null>(null);
 
 	useEffect(() => {
 		if (value !== undefined && onValueChange != null) {
@@ -62,36 +67,63 @@ export const Recipients: React.FC<TRecipients> = ({
 					arr[0].length > 0 &&
 					isValidEmail(arr[0])
 				) {
-					reduceValue({
-						type: selectedRef.current == null ? 'add' : 'edit',
-						payload: arr[0],
-						index: selectedRef.current as number | null,
-					});
+					if (
+						!(
+							value != null &&
+							value?.length > 0 &&
+							value?.findIndex((item) => item == arr[0]) > -1
+						)
+					) {
+						reduceValue({
+							type: selected == null ? 'add' : 'edit',
+							payload: arr[0],
+							index: selected as number | null,
+						});
+					}
 					if (inputRef?.current?.['value'] != null) {
 						inputRef.current['value'] = '';
 					}
-					if (selectedRef.current != null) {
-						selectedRef.current = null;
+					if (selected != null) {
+						setSelect(null);
 					}
 				}
 			}
 		},
-		[]
+		[value, selected]
 	);
 
-	const onClick = useCallback(
-		(e: React.MouseEvent, chip: string, index: number) => {
+	const onClickChip = useCallback(
+		(
+			e: string | React.MouseEvent<HTMLDivElement, MouseEvent>,
+			chip: string
+		) => {
 			if (inputRef?.current != null) {
-				selectedRef.current = index;
-				inputRef.current['value'] = chip;
+				if (selected == null) {
+					setSelect((value ?? []).findIndex((item) => item == chip));
+					inputRef.current['value'] = chip;
+				} else {
+					setSelect(null);
+					inputRef.current['value'] = '';
+				}
 			}
 		},
-		[]
+		[value, selected]
 	);
 
-	const onDelete = useCallback((chip: string) => {
-		reduceValue({ type: 'remove', payload: chip });
-	}, []);
+	const onDelete = useCallback(
+		(chip: string) => {
+			reduceValue({ type: 'remove', payload: chip });
+			if (selected != null) {
+				setSelect(null);
+				if (inputRef?.current != null) {
+					inputRef.current['value'] = '';
+				}
+			}
+		},
+		[selected]
+	);
+
+	// ADD FORWARD REF FROM OUTSIDE TO THE INPUT
 
 	return (
 		<StyledRecipients>
@@ -99,7 +131,11 @@ export const Recipients: React.FC<TRecipients> = ({
 				type="email"
 				name={name}
 				onChange={onChange}
-				disabled={value != null && value?.length >= maxItems}
+				disabled={
+					value != null &&
+					value?.length >= maxItems &&
+					selected == null
+				}
 				placeholder={
 					placeholder ??
 					`add up to ${maxItems} emails separated by "${separator}"`
@@ -111,6 +147,7 @@ export const Recipients: React.FC<TRecipients> = ({
 				<div className="recipients__chips-container">
 					{/* <ListItem key={data.key}> */}
 					{value.map((chip, index) => {
+						let isSelected = index === selected;
 						let isValid = true;
 						if (validation != null) {
 							isValid = validation(chip);
@@ -120,12 +157,16 @@ export const Recipients: React.FC<TRecipients> = ({
 								<Template
 									label={chip}
 									color={
-										isValid === true ? 'secondary' : 'error'
+										isSelected === true
+											? isValid === true
+												? 'info'
+												: 'warning'
+											: isValid === true
+											? 'secondary'
+											: 'error'
 									}
 									clickable={true}
-									onClick={(e) => {
-										onClick(e, chip, index);
-									}}
+									onClick={onClickChip}
 									onDelete={onDelete}
 								/>
 							</span>
@@ -134,6 +175,9 @@ export const Recipients: React.FC<TRecipients> = ({
 					{/* </ListItem> */}
 				</div>
 			)}
+			{/* <br />
+			<br />
+			selected: {selected} */}
 		</StyledRecipients>
 	);
 };

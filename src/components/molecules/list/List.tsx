@@ -17,8 +17,8 @@ export const List = (props: TList) => {
 
 	const addItem = useCallback(() => {}, []);
 
-	const actionAdd = actions.find((action) => action.key === 'add');
-	const actionDelete = actions.find((action) => action.key === 'delete');
+	const actionAdd = actions.find((action) => action.type === 'add');
+	const actionDelete = actions.find((action) => action.type === 'delete');
 
 	return (
 		<StyledList className="list">
@@ -31,7 +31,8 @@ export const List = (props: TList) => {
 					{actions
 						.filter(
 							(action) =>
-								action.key !== 'add' && action.key !== 'delete'
+								action.type !== 'add' &&
+								action.type !== 'delete'
 						)
 						.map((action) => (
 							<Button
@@ -46,11 +47,7 @@ export const List = (props: TList) => {
 							</Button>
 						))}
 					{actionDelete != null && (
-						<Action
-							key="delete"
-							label="Delete all"
-							{...actionDelete}
-						/>
+						<Action label="Delete all" {...actionDelete} />
 					)}
 				</div>
 			</header>

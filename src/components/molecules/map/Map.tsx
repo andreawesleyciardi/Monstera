@@ -1,5 +1,10 @@
 import React from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap } from 'react-google-maps';
+import {
+	withScriptjs,
+	withGoogleMap,
+	GoogleMap,
+	GoogleMapProps,
+} from 'react-google-maps';
 
 import { TMap, TWithGoogleMap } from './Map.types';
 import { useMap } from './../../../providers';
@@ -10,8 +15,8 @@ const BaseMap = withScriptjs(
 			const provider = useMap();
 			return (
 				<GoogleMap
-					defaultZoom={defaultZoom ?? provider?.defaultZoom ?? 4}
-					defaultCenter={
+					zoom={defaultZoom ?? provider?.defaultZoom ?? 4}
+					center={
 						defaultCenter ??
 						provider?.defaultCenter ?? { lat: 0, lng: 0 }
 					}

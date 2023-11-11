@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
 import { IStyledList } from './List.types';
-import {
-	getStyledColor,
-	getStyledBackgroundColor,
-} from '../../../utilities/Services';
-import { themeDark } from '../../../providers/theme/Theme.styles';
 
 export const StyledList = styled.div<IStyledList>`
 	width: 100%;

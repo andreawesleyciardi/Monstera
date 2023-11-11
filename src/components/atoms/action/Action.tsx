@@ -9,25 +9,25 @@ export const Action: React.FC<TAction> = ({
 	className = '',
 	event = 'onClick',
 	icon = null,
-	key = null,
 	label = null,
 	labelInTooltip = true,
 	onClick = null,
 	onKeyDown = null,
+	type = null,
 }) => {
 	// TO MANAGE onKeyDown
 
 	return onClick != null || onKeyDown != null ? (
 		<Button
 			variant="link"
-			className={`action action--${key} ${className}`}
+			className={`action action--${type} ${className}`}
 			onClick={(e) => {
 				onClick != null && onClick(e);
 			}}
 		>
-			{children != null ? children : key}
+			{children != null ? children : type}
 		</Button>
 	) : (
-		<p>{children != null ? children : key}</p>
+		<p>{children != null ? children : type}</p>
 	);
 };
