@@ -17,6 +17,14 @@ function valueReducer(
 	state: string[] | null,
 	action: { type: string; payload: string; index?: number | null }
 ): string[] | null {
+	if (
+		(action.type === 'add' || action.type === 'edit') &&
+		state != null &&
+		state.length > 0 &&
+		state.includes(action.payload) === true
+	) {
+		return state;
+	}
 	if (action.type === 'add') {
 		return ([] as string[]).concat((state != null ? state : []) as [], [
 			action.payload,
@@ -49,7 +57,6 @@ export const Recipients = React.forwardRef(
 			separator = ';',
 			template: Template = Chip,
 			value: defaultValue = null,
-			validation = undefined,
 		}: TRecipients,
 		ref?: React.Ref<HTMLInputElement>
 	) => {
@@ -57,34 +64,11 @@ export const Recipients = React.forwardRef(
 		const inputRef = useRef<HTMLInputElement | null>(null);
 		const [selected, setSelect] = useState<number | null>(null);
 
-		// REMOVE VALIDATION FROM HERE AND LEAVE IT TO THE USER
-
-		const checkIsValid = (recipient: string) => {
-			let isValid = true;
-			if (validation != null) {
-				isValid = validation(recipient, value);
-			}
-			if (isValid === true && blackList != null) {
-				isValid = !blackList.includes(recipient);
-			}
-			return isValid;
-		};
-
 		useEffect(() => {
 			if (value !== undefined && onValueChange != null) {
-				let validateValue = null;
-				if (value !== null && value.length > 0) {
-					let isValid = true;
-					let i = 0;
-					do {
-						isValid = checkIsValid(value[i]);
-						i++;
-					} while (i < value.length && isValid === true);
-					validateValue = isValid === true ? [...value] : null;
-				}
-				onValueChange(validateValue);
+				onValueChange(value);
 			}
-		}, [value, blackList]);
+		}, [value]);
 
 		const onChange = useCallback(
 			(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,13 +174,16 @@ export const Recipients = React.forwardRef(
 				{value != null && value.length > 0 && (
 					<div className="recipients__chips-container">
 						{/* <ListItem key={data.key}> */}
-						{value.map((chip, index) => {
+						{value.map((recipient, index) => {
 							let isSelected = index === selected;
-							let isValid = checkIsValid(chip);
+							let isValid =
+								blackList != null
+									? !blackList.includes(recipient)
+									: true;
 							return (
-								<span key={chip}>
+								<span key={recipient}>
 									<Template
-										label={chip}
+										label={recipient}
 										color={
 											isSelected === true
 												? isValid === true

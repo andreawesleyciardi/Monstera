@@ -8,15 +8,6 @@ const Template = (args) => {
 	const [recipients, setRecipients] = useState(null);
 	const ref = useRef(null);
 
-	useEffect(() => {
-		console.log('ref');
-		console.log(ref);
-	});
-
-	const validation = useCallback((value) => {
-		return value == 'validation@email.io' ? false : true;
-	}, []);
-
 	const onChange = useCallback((value) => {
 		setRecipients(value);
 	}, []);
@@ -28,15 +19,14 @@ const Template = (args) => {
 				{...args}
 				value={recipients}
 				onChange={onChange}
-				// validation={validation}
-				blackList={['error@email.io']}
+				blackList={['blacklist@email.io']}
 				ref={ref}
 			/>
 			<br />
 			Value: {JSON.stringify(recipients, null, '\t')}
 			<br />
 			<p>
-				<em>Insert "validation@email.io" for view a non-valid email</em>
+				Insert "<em>blacklist@email.io</em>" for view a non-valid email
 			</p>
 			{/* </div> */}
 		</>

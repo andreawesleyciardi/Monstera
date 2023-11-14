@@ -6,14 +6,12 @@ export type TRecipients = {
 	className?: string | null;
 	blackList?: string[] | null;
 	id?: string | null;
-	// inputRef?: React.Ref<HTMLInputElement> | null;
 	maxItems?: number;
 	name?: string;
 	onChange: (value: string[] | null) => void;
 	placeholder?: string | null;
 	separator?: string;
 	template?: React.FC<TChip>;
-	validation?: (recipient: string, value: string[] | null) => boolean;
 	value?: string[] | null;
 };
 
