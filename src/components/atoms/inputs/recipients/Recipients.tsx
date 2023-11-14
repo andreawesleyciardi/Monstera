@@ -57,6 +57,8 @@ export const Recipients = React.forwardRef(
 		const inputRef = useRef<HTMLInputElement | null>(null);
 		const [selected, setSelect] = useState<number | null>(null);
 
+		// REMOVE VALIDATION FROM HERE AND LEAVE IT TO THE USER
+
 		const checkIsValid = (recipient: string) => {
 			let isValid = true;
 			if (validation != null) {
@@ -154,6 +156,10 @@ export const Recipients = React.forwardRef(
 
 		const setRef = useCallback((el: HTMLInputElement) => {
 			inputRef.current = el;
+			console.log('setRef ref');
+			console.log(ref);
+			console.log('typeof ref');
+			console.log(typeof ref);
 			if (ref != null) {
 				if (typeof ref === 'function') {
 					ref(el);
