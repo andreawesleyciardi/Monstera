@@ -35,149 +35,194 @@ function valueReducer(
 	}
 }
 
-export const Recipients: React.FC<TRecipients> = ({
-	autoFocus = false,
-	className = null,
-	id = null,
-	maxItems = 3,
-	name = 'recipients',
-	onChange: onValueChange,
-	placeholder = null,
-	separator = ';',
-	template: Template = Chip,
-	value: defaultValue = null,
-	validation = null,
-}) => {
-	const [value, reduceValue] = useReducer(valueReducer, defaultValue);
-	const inputRef = useRef<HTMLInputElement | null>(null);
-	const [selected, setSelect] = useState<number | null>(null);
+export const Recipients = React.forwardRef(
+	(
+		{
+			autoFocus = false,
+			className = null,
+			blackList = undefined,
+			id = null,
+			maxItems = 3,
+			name = 'recipients',
+			onChange: onValueChange,
+			placeholder = null,
+			separator = ';',
+			template: Template = Chip,
+			value: defaultValue = null,
+			validation = undefined,
+		}: TRecipients,
+		ref?: React.Ref<HTMLInputElement>
+	) => {
+		const [value, reduceValue] = useReducer(valueReducer, defaultValue);
+		const inputRef = useRef<HTMLInputElement | null>(null);
+		const [selected, setSelect] = useState<number | null>(null);
 
-	useEffect(() => {
-		if (value !== undefined && onValueChange != null) {
-			onValueChange(value);
-		}
-	}, [value]);
+		const checkIsValid = (recipient: string) => {
+			let isValid = true;
+			if (validation != null) {
+				isValid = validation(recipient, value);
+			}
+			if (isValid === true && blackList != null) {
+				isValid = !blackList.includes(recipient);
+			}
+			return isValid;
+		};
 
-	const onChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			if (event.target.value.indexOf(separator) > -1) {
-				let arr = event.target.value.split(separator);
-				if (
-					arr.length > 1 &&
-					arr[0].length > 0 &&
-					isValidEmail(arr[0])
-				) {
+		useEffect(() => {
+			if (value !== undefined && onValueChange != null) {
+				let validateValue = null;
+				if (value !== null && value.length > 0) {
+					let isValid = true;
+					let i = 0;
+					do {
+						isValid = checkIsValid(value[i]);
+						i++;
+					} while (i < value.length && isValid === true);
+					validateValue = isValid === true ? [...value] : null;
+				}
+				onValueChange(validateValue);
+			}
+		}, [value, blackList]);
+
+		const onChange = useCallback(
+			(event: React.ChangeEvent<HTMLInputElement>) => {
+				if (event.target.value.indexOf(separator) > -1) {
+					let arr = event.target.value.split(separator);
 					if (
-						!(
-							value != null &&
-							value?.length > 0 &&
-							value?.findIndex((item) => item == arr[0]) > -1
-						)
+						arr.length > 1 &&
+						arr[0].length > 0 &&
+						isValidEmail(arr[0])
 					) {
-						reduceValue({
-							type: selected == null ? 'add' : 'edit',
-							payload: arr[0],
-							index: selected as number | null,
-						});
+						if (
+							!(
+								value != null &&
+								value?.length > 0 &&
+								value?.findIndex((item) => item == arr[0]) > -1
+							)
+						) {
+							reduceValue({
+								type: selected == null ? 'add' : 'edit',
+								payload: arr[0],
+								index: selected as number | null,
+							});
+						}
+						if (inputRef?.current?.['value'] != null) {
+							inputRef.current['value'] = '';
+						}
+						if (selected != null) {
+							setSelect(null);
+						}
 					}
-					if (inputRef?.current?.['value'] != null) {
+				}
+			},
+			[value, selected]
+		);
+
+		const onClickChip = useCallback(
+			(
+				e: string | React.MouseEvent<HTMLDivElement, MouseEvent>,
+				chip: string
+			) => {
+				if (inputRef?.current != null) {
+					if (selected == null) {
+						setSelect(
+							(value ?? []).findIndex((item) => item == chip)
+						);
+						inputRef.current['value'] = chip;
+					} else {
+						setSelect(null);
 						inputRef.current['value'] = '';
 					}
-					if (selected != null) {
-						setSelect(null);
+					inputRef.current.focus();
+				}
+			},
+			[value, selected]
+		);
+
+		const onDelete = useCallback(
+			(chip: string) => {
+				reduceValue({ type: 'remove', payload: chip });
+				if (selected != null) {
+					setSelect(null);
+					if (inputRef?.current != null) {
+						inputRef.current['value'] = '';
 					}
 				}
-			}
-		},
-		[value, selected]
-	);
+			},
+			[selected]
+		);
 
-	const onClickChip = useCallback(
-		(
-			e: string | React.MouseEvent<HTMLDivElement, MouseEvent>,
-			chip: string
-		) => {
-			if (inputRef?.current != null) {
-				if (selected == null) {
-					setSelect((value ?? []).findIndex((item) => item == chip));
-					inputRef.current['value'] = chip;
+		const setRef = useCallback((el: HTMLInputElement) => {
+			inputRef.current = el;
+			if (ref != null) {
+				if (typeof ref === 'function') {
+					ref(el);
 				} else {
-					setSelect(null);
-					inputRef.current['value'] = '';
+					// ref.current = el;
 				}
 			}
-		},
-		[value, selected]
-	);
+		}, []);
 
-	const onDelete = useCallback(
-		(chip: string) => {
-			reduceValue({ type: 'remove', payload: chip });
-			if (selected != null) {
-				setSelect(null);
-				if (inputRef?.current != null) {
-					inputRef.current['value'] = '';
-				}
-			}
-		},
-		[selected]
-	);
+		return (
+			<StyledRecipients id={id} className={className}>
+				<Input
+					type="email"
+					name={name}
+					onChange={onChange}
+					disabled={
+						value != null &&
+						value?.length >= maxItems &&
+						selected == null
+					}
+					placeholder={
+						placeholder ??
+						`add up to ${maxItems} emails separated by "${separator}"`
+					}
+					autoFocus={autoFocus}
+					ref={setRef}
+				/>
+				{value != null && value.length > 0 && (
+					<div className="recipients__chips-container">
+						{/* <ListItem key={data.key}> */}
+						{value.map((chip, index) => {
+							let isSelected = index === selected;
+							let isValid = checkIsValid(chip);
+							return (
+								<span key={chip}>
+									<Template
+										label={chip}
+										color={
+											isSelected === true
+												? isValid === true
+													? 'info'
+													: 'warning'
+												: isValid === true
+												? 'secondary'
+												: 'error'
+										}
+										clickable={true}
+										onClick={onClickChip}
+										onDelete={onDelete}
+									/>
+								</span>
+							);
+						})}
+						{/* </ListItem> */}
+					</div>
+				)}
+			</StyledRecipients>
+		);
+	}
+);
 
-	// ADD FORWARD REF FROM OUTSIDE TO THE INPUT
-
-	return (
-		<StyledRecipients>
-			<Input
-				type="email"
-				name={name}
-				onChange={onChange}
-				disabled={
-					value != null &&
-					value?.length >= maxItems &&
-					selected == null
-				}
-				placeholder={
-					placeholder ??
-					`add up to ${maxItems} emails separated by "${separator}"`
-				}
-				autoFocus={autoFocus}
-				ref={inputRef}
-			/>
-			{value != null && value.length > 0 && (
-				<div className="recipients__chips-container">
-					{/* <ListItem key={data.key}> */}
-					{value.map((chip, index) => {
-						let isSelected = index === selected;
-						let isValid = true;
-						if (validation != null) {
-							isValid = validation(chip);
-						}
-						return (
-							<span key={chip}>
-								<Template
-									label={chip}
-									color={
-										isSelected === true
-											? isValid === true
-												? 'info'
-												: 'warning'
-											: isValid === true
-											? 'secondary'
-											: 'error'
-									}
-									clickable={true}
-									onClick={onClickChip}
-									onDelete={onDelete}
-								/>
-							</span>
-						);
-					})}
-					{/* </ListItem> */}
-				</div>
-			)}
-			{/* <br />
-			<br />
-			selected: {selected} */}
-		</StyledRecipients>
-	);
-};
+/*
+<br />
+<br />
+internal value: {JSON.stringify(value, null, '\t')}
+<br />
+<br />
+inputRef: {JSON.stringify(inputRef?.current, null, '\t')}
+<br />
+<br />
+selected: {selected}
+*/

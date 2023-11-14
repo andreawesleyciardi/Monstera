@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Recipients as RecipientsComponent } from './Recipients';
@@ -6,9 +6,15 @@ import { ThemeProvider } from '../../../../providers/theme/Theme';
 
 const Template = (args) => {
 	const [recipients, setRecipients] = useState(null);
+	const ref = useRef(null);
+
+	useEffect(() => {
+		console.log('ref');
+		console.log(ref);
+	});
 
 	const validation = useCallback((value) => {
-		return value == 'test@email.io' ? false : true;
+		return value == 'validation@email.io' ? false : true;
 	}, []);
 
 	const onChange = useCallback((value) => {
@@ -22,14 +28,16 @@ const Template = (args) => {
 				{...args}
 				value={recipients}
 				onChange={onChange}
-				validation={validation}
+				// validation={validation}
+				blackList={['error@email.io']}
+				ref={ref}
 			/>
 			<br />
-			<p>
-				<em>Insert "test@email.io" for view a non-valid email</em>
-			</p>
+			Value: {JSON.stringify(recipients, null, '\t')}
 			<br />
-			{JSON.stringify(recipients, null, '\t')}
+			<p>
+				<em>Insert "validation@email.io" for view a non-valid email</em>
+			</p>
 			{/* </div> */}
 		</>
 	);
