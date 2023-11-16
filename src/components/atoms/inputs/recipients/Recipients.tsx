@@ -48,7 +48,7 @@ export const Recipients = React.forwardRef(
 		{
 			autoFocus = false,
 			className = null,
-			blackList = undefined,
+			blackList = null,
 			id = null,
 			maxItems = 3,
 			name = 'recipients',
@@ -140,10 +140,6 @@ export const Recipients = React.forwardRef(
 
 		const setRef = useCallback((el: HTMLInputElement) => {
 			inputRef.current = el;
-			console.log('setRef ref');
-			console.log(ref);
-			console.log('typeof ref');
-			console.log(typeof ref);
 			if (ref != null) {
 				if (typeof ref === 'function') {
 					ref(el);
