@@ -5,7 +5,8 @@
 
 # Node artifact files
 node_modules/
-dist/
+ui/dist/
+ux/dist/
 
 # Compiled Java class files
 *.class

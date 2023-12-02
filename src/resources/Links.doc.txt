@@ -1,8 +1,0 @@
-- useMemo and useCallback:
-    https://www.developerway.com/posts/how-to-use-memo-use-callback
-
-- How to organize Components in React
-    https://benjaminwfox.com/blog/tech/how-to-organize-components-in-react
-
-- Examples for how to use React Routing
-    https://github.com/remix-run/react-router/tree/dev/examples
