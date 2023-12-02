@@ -2,7 +2,7 @@ import React from 'react';
 import { TChip } from '../../chip';
 
 export type TRecipients = {
-	autoFocus: boolean;
+	autoFocus?: boolean;
 	className?: string | null;
 	blackList?: string[] | null;
 	id?: string | null;
