@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Recipients as RecipientsComponent } from './Recipients';
-import { ThemeProvider } from '../../../../providers/theme/Theme';
+import { ThemeProvider } from '../../../../../../ui/src';
 
 const Template = (args) => {
 	const [recipients, setRecipients] = useState(null);
@@ -34,7 +34,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof RecipientsComponent> = {
-	title: 'Components/Atoms/Inputs',
+	title: 'UX/Components/Atoms/Inputs',
 	component: RecipientsComponent,
 	decorators: [
 		(Story) => (

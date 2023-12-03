@@ -6,9 +6,7 @@ import React, {
 	useState,
 } from 'react';
 
-import { Chip } from '../../chip';
-import { Input } from '../input';
-import { isValidEmail } from '../../../../utilities';
+import { Chip, Input, isValidEmail } from '../../../../../../ui/src';
 
 import { StyledRecipients } from './Recipients.styles';
 import { TRecipients } from './Recipients.types';
