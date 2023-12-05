@@ -10,7 +10,7 @@ const Template = (args: TBadge) => {
 };
 
 const meta: Meta<typeof BadgeComponent> = {
-	title: 'Components/Atoms',
+	title: 'UI/Components/Atoms',
 	component: BadgeComponent,
 	decorators: [
 		(Story) => (

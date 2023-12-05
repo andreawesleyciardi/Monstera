@@ -9,7 +9,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof ChipComponent> = {
-	title: 'Components/Atoms',
+	title: 'UI/Components/Atoms',
 	component: ChipComponent,
 	decorators: [
 		(Story) => (

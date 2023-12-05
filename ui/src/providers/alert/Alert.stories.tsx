@@ -52,7 +52,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof AlertProvider> = {
-	title: 'Providers/Alert',
+	title: 'UI/Providers/Alert',
 	component: AlertProvider,
 	decorators: [
 		(Story) => (

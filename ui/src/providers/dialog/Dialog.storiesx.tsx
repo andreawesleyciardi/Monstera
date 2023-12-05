@@ -104,7 +104,7 @@ const Template = () => {
 };
 
 const meta: Meta<typeof DialogProvider> = {
-	title: 'Providers/Dialog',
+	title: 'UI/Providers/Dialog',
 	component: DialogProvider,
 	decorators: [
 		(Story) => (

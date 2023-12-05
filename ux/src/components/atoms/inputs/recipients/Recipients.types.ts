@@ -1,21 +1,11 @@
 import React from 'react';
-import { TChip } from '../../chip';
+import { ControllerProps } from 'react-hook-form';
 
-export type TRecipients = {
-	autoFocus?: boolean;
-	className?: string | null;
-	blackList?: string[] | null;
-	id?: string | null;
-	maxItems?: number;
-	name?: string;
-	onChange: (value: string[] | null) => void;
-	placeholder?: string | null;
-	separator?: string;
-	template?: React.FC<TChip>;
-	value?: string[] | null;
-};
+import { TRecipients as TRecipientsUI } from 'monstera-ui';
 
-export interface IStyledRecipients {
-	className?: string | null;
-	id?: string | null;
-}
+export type TRecipients = TRecipientsUI &
+	ControllerProps & {
+		name: string;
+		isLoading?: boolean;
+		onChangeValue?: (value: string[] | null) => void;
+	};

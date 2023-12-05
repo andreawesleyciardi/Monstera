@@ -91,7 +91,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof ModalComponent> = {
-	title: 'Components/Molecules',
+	title: 'UI/Components/Molecules',
 	component: ModalComponent,
 	decorators: [
 		(Story) => (

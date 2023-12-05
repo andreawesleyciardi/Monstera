@@ -19,7 +19,7 @@ const Template = ({ children, ...args }) => {
 };
 
 const meta: Meta<typeof ButtonComponent> = {
-	title: 'Components/Atoms',
+	title: 'UI/Components/Atoms',
 	component: ButtonComponent,
 	decorators: [
 		(Story) => (

@@ -104,7 +104,7 @@ const Template = () => {
 };
 
 const meta: Meta<typeof ModalProvider> = {
-	title: 'Providers/Modal',
+	title: 'UI/Providers/Modal',
 	component: ModalProvider,
 	decorators: [
 		(Story) => (

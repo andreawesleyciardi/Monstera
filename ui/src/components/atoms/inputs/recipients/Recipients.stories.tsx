@@ -34,7 +34,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof RecipientsComponent> = {
-	title: 'Components/Atoms/Inputs',
+	title: 'UI/Components/Atoms/Inputs',
 	component: RecipientsComponent,
 	decorators: [
 		(Story) => (

@@ -128,7 +128,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof ThemeProvider> = {
-	title: 'Providers/Theme',
+	title: 'UI/Providers/Theme',
 	component: ThemeProvider,
 	// decorators: [
 	// 	(Story) => (

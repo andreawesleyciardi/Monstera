@@ -12,7 +12,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof ListComponent> = {
-	title: 'Components/Molecules',
+	title: 'UI/Components/Molecules',
 	component: ListComponent,
 	decorators: [
 		(Story) => (

@@ -17,7 +17,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof AlertComponent> = {
-	title: 'Components/Atoms',
+	title: 'UI/Components/Atoms',
 	component: AlertComponent,
 	decorators: [
 		(Story) => (

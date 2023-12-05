@@ -1,6 +1,6 @@
 {
 	"name": "monstera-ui",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "React UI Library",
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
@@ -62,7 +62,6 @@
 		"moment": "^2.29.4",
 		"polished": "^4.2.2",
 		"react-google-maps": "^9.4.5",
-		"react-hook-form": "^7.48.2",
 		"styled-components": "^6.0.7",
 		"vite": "^4.4.9"
 	},

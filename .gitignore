@@ -5,6 +5,8 @@
 
 # Node artifact files
 node_modules/
+ui/node_modules/
+ux/node_modules/
 ui/dist/
 ux/dist/
 
@@ -50,3 +52,4 @@ Thumbs.db
 *.wmv
 *.kra
 
+node_modules

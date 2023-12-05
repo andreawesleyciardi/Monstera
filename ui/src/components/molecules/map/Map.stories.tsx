@@ -25,7 +25,7 @@ const Template = (args) => {
 };
 
 const meta: Meta<typeof MapComponent> = {
-	title: 'Components/Molecules',
+	title: 'UI/Components/Molecules',
 	component: MapComponent,
 	decorators: [
 		(Story) => (
