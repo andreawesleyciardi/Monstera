@@ -2,34 +2,28 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Recipients as RecipientsComponent } from './Recipients';
+import { Form } from './../../../..';
 import { ThemeProvider } from '../../../../../../ui/src';
 
 const Template = (args) => {
-	const [recipients, setRecipients] = useState(null);
-	const ref = useRef(null);
-
-	const onChange = useCallback((value) => {
-		setRecipients(value);
-	}, []);
-
 	return (
-		<>
-			{/* <div style={{ display: 'flex', alignItems: 'flex-start' }}> */}
-			<RecipientsComponent
-				{...args}
-				value={recipients}
-				onChange={onChange}
-				blackList={['blacklist@email.io']}
-				ref={ref}
-			/>
-			<br />
-			Value: {JSON.stringify(recipients, null, '\t')}
-			<br />
-			<p>
-				Insert "<em>blacklist@email.io</em>" for view a non-valid email
-			</p>
-			{/* </div> */}
-		</>
+		<Form
+			content={(props) => {
+				let { control, register } = props;
+
+				return (
+					<RecipientsComponent
+						name="emails"
+						autoFocus
+						maxItems={5}
+						control={control}
+						{...register('emails', {
+							required: true,
+						})}
+					/>
+				);
+			}}
+		/>
 	);
 };
 
