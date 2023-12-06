@@ -18,3 +18,8 @@ export type TForm = {
 		| 'all'
 		| undefined;
 };
+
+export type TFormStories = {
+	content: React.FC<any>;
+	onSubmit: SubmitHandler<any>;
+};

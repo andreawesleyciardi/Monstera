@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { ThemeProvider } from 'monstera-ui';
+
 import { Recipients as RecipientsComponent } from './Recipients';
-import { Form } from './../../../..';
-import { ThemeProvider } from '../../../../../../ui/src';
+import { FormStories } from '../../../../';
 
 const Template = (args) => {
 	return (
-		<Form
+		<FormStories
 			content={(props) => {
 				let { control, register } = props;
 
